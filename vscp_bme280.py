@@ -531,7 +531,7 @@ temperature,pressure,humidity = readBME280All()
 temperature_str = "{:0.2f}".format(temperature - temp_corr)
 
 if bVerbose :
-	print( "Temperature : %f C" % temperature_str)
+	print( "Temperature : %f C" % (temperature - temp_corr))
 
 ex = vscp.vscpEventEx()
 g = initEvent(ex, id_temperature, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_TEMPERATURE)
@@ -649,7 +649,7 @@ pressure_adj_str = "{:f}".format((pressure + height_at_location/8.3)*100)
 
 
 if bVerbose :
-	print( "Pressure : %f hPa" % pressure_adj_str)
+	print( "Pressure : %f hPa" % float(pressure_adj_str))
 
 ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
