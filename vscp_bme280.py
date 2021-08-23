@@ -723,12 +723,12 @@ if BME280_CHIP_ID == chip_id:
 
 	# -----------------------------------------------------------------------------
 
-	client.disconnect() 
-	client.loop_stop() 
+  client.disconnect() 
+  client.loop_stop() 
 
-	if bVerbose :
-	  print("-------------------------------------------------------------------------------")
-	  print("Closed")
+  if bVerbose :
+    print("-------------------------------------------------------------------------------")
+    print("Closed")
 
 # if __name__=="__main__":
 #   main()
