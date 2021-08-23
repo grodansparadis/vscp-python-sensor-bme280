@@ -306,7 +306,7 @@ if (len(cfgpath)):
 	  sensorindex_humidity = int(config['VSCP']['sensorindex_humidity'])
 	  if bVerbose:
 	    print("sensorindex_humidity =", sensorindex_humidity)
-
+  
 	if 'sensorindex_pressure' in config['VSCP']:        
 	  sensorindex_pressure = int(config['VSCP']['sensorindex_pressure'])
 	  if bVerbose:
@@ -459,7 +459,7 @@ if (len(cfgpath)):
 	    print("height_at_location =", temp_corr)
 
 	# -----------------------------------------------------------------------------
-
+  
 	# define message callback
 	def on_message(client, userdata, msg):
 	  print(msg.topic+" "+str(msg.payload))
