@@ -471,7 +471,7 @@ if (len(cfgpath)):
 	  if not bDebug :
 	    height_at_location = float(config['BME280']['height_at_location'])       
 	  if bVerbose:
-	    print("height_at_location =", temp_corr)
+	    print("height_at_location =", height_at_location)
 
 	# -----------------------------------------------------------------------------
 
@@ -645,8 +645,7 @@ if ( len(ptopic) ):
 #                           Adjusted Pressure
 # -----------------------------------------------------------------------------
 
-pressure_adj_str = "{:f}".format((pressure + height_at_location/8.3)*100)
-
+pressure_adj_str = "{:f}".format((pressure + height_at_location/8.3))
 
 if bVerbose :
 	print( "Adjusted pressure : %f0.2 hPa" % float(pressure_adj_str))
