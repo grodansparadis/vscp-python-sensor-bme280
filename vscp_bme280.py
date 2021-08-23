@@ -570,37 +570,37 @@ if BME280_CHIP_ID == chip_id:
 
   humidity_str = "{:f}".format(humidity)
 
-	if bVerbose :
+  if bVerbose :
 	  print( "Humidity : %f%%" % humidity)
 
-	ex = vscp.vscpEventEx()
-	initEvent(ex, id_humidity, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_HUMIDITY)
+  ex = vscp.vscpEventEx()
+  initEvent(ex, id_humidity, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_HUMIDITY)
 
-	# Size is predata + string length + terminating zero
-	ex.sizedata = 4 + len(humidity_str) + 1
-	ex.data[0] = sensorindex_humidity
-	ex.data[1] = zone
-	ex.data[2] = subzone
-	ex.data[3] = 0  # default unit % of moisture
-	b = humidity_str.encode()
-	for idx in range(len(b)):
-	  ex.data[idx + 4] = b[idx]
-	ex.data[4 + len(humidity_str)] = 0  # optional terminating zero
+  # Size is predata + string length + terminating zero
+  ex.sizedata = 4 + len(humidity_str) + 1
+  ex.data[0] = sensorindex_humidity
+  ex.data[1] = zone
+  ex.data[2] = subzone
+  ex.data[3] = 0  # default unit % of moisture
+  b = humidity_str.encode()
+  for idx in range(len(b)):
+    ex.data[idx + 4] = b[idx]
+  ex.data[4 + len(humidity_str)] = 0  # optional terminating zero
 
-	j = ex.toJSON()
-	j["vscpNote"] = note_humidity
-	# Add extra measurement information
-	j["measurement"] = { 
-	  "value" : humidity,
-	  "unit" : 0,
-	  "sensorindex" : sensorindex_humidity,
-	  "zone" : zone,
-	  "subzone" : subzone
-	}
+  j = ex.toJSON()
+  j["vscpNote"] = note_humidity
+  # Add extra measurement information
+  j["measurement"] = { 
+    "value" : humidity,
+    "unit" : 0,
+    "sensorindex" : sensorindex_humidity,
+    "zone" : zone,
+    "subzone" : subzone
+  }
 
-	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-	if ( len(ptopic) ):
-	  client.publish(ptopic, json.dumps(j))
+  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+  if ( len(ptopic) ):
+    client.publish(ptopic, json.dumps(j))
 
 # -----------------------------------------------------------------------------
 #                             P R E S S U R E
