@@ -624,7 +624,7 @@ if ( len(ptopic) ):
 pressure_adj = "{:0.0f}".format((pressure + height_at_location/8.3)*100)
 
 
- if bVerbose :
+if bVerbose :
   print( "Pressure : %f hPa" % pressure_adj)
 
 ex = vscp.vscpEventEx()
