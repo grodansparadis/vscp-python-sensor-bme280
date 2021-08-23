@@ -296,7 +296,7 @@ if (len(cfgpath)):
 	  guid = config['VSCP']['guid']
 	  if bVerbose:
 	    print("guid =", guid)
-
+  
   if 'sensorindex_temperature' in config['VSCP']:        
 	  sensorindex_temperature = int(config['VSCP']['sensorindex_temperature'])
 	  if bVerbose:
