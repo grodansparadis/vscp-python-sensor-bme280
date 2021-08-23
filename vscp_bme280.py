@@ -115,7 +115,7 @@ note_dewpoint = "Dewpoint from BME280"
 # Configuration will be read from path set here
 cfgpath=""   
 
-// ----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 
 config = configparser.ConfigParser()
 
@@ -257,10 +257,10 @@ def readBME280All(addr=DEVICE):
 
 def main():
 
-  # ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
-args = sys.argv[1:]
-nargs = len(args)
+    args = sys.argv[1:]
+    nargs = len(args)
 
 try:
     opts, args = getopt.getopt(args,"hvc:",["help","verbose","config="])
