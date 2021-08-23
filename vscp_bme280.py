@@ -268,19 +268,20 @@ except getopt.GetoptError:
    print("unrecognized format!")
    usage()
    sys.exit(2)
-   for opt, arg in opts:
-      if opt in ("-h", "--help"):
-         print("HELP")
-         usage()
-         sys.exit()
-      elif opt in ("-v", "--verbose"):
-         bVerbose = True
-      elif opt in ("-c", "--config"):
-         cfgpath = arg
+
+for opt, arg in opts:
+  if opt in ("-h", "--help"):
+      print("HELP")
+      usage()
+      sys.exit()
+  elif opt in ("-v", "--verbose"):
+      bVerbose = True
+  elif opt in ("-c", "--config"):
+      cfgpath = arg
 
 if (len(cfgpath)):
 
-   init = config.read(cfgpath)
+  init = config.read(cfgpath)
 
 	# ----------------- GENERAL -----------------
 	if 'bVerbose' in config['GENERAL']:
