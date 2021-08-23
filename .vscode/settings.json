@@ -1,7 +1,11 @@
 {
   "cSpell.ignoreWords": [
+    "bme",
+    "corr",
     "measurement",
     "pressure",
+    "temp",
+    "temperature",
     "type",
     "vscp"
   ]

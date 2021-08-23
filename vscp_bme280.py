@@ -528,28 +528,30 @@ temperature,pressure,humidity = readBME280All()
 #                           T E M P E R A T U R E
 # -----------------------------------------------------------------------------
 
+temperature_str = "{:0.2f}".format(temperature - temp_corr)
+
 if bVerbose :
-	print( "Temperature : %f C" % temperature)
+	print( "Temperature : %f C" % temperature_str)
 
 ex = vscp.vscpEventEx()
 g = initEvent(ex, id_temperature, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_TEMPERATURE)
 
 # Size is predata + string length + terminating zero
-ex.sizedata = 4 + len(temperature) + 1
+ex.sizedata = 4 + len(temperature_str) + 1
 ex.data[0] = sensorindex_temperature
 ex.data[1] = zone
 ex.data[2] = subzone
 ex.data[3] = 1  # unit is degrees Celsius
-b = temperature.encode()
+b = temperature_str.encode()
 for idx in range(len(b)):
   ex.data[idx + 4] = b[idx]
-ex.data[4 + len(temperature)] = 0  # optional terminating zero
+ex.data[4 + len(temperature_str)] = 0  # optional terminating zero
 
 j = ex.toJSON()
 j["vscpNote"] = note_temperature
 # Add extra measurement information
 j["measurement"] = { 
-  "value" : float(temperature),
+  "value" : temperature,
   "unit" : 1,
   "sensorindex" : sensorindex_temperature,
   "zone" : zone,
@@ -566,6 +568,8 @@ if ( len(ptopic) ):
 
 if BME280_CHIP_ID == chip_id:
 
+  humidity_str = "{:f}".format(humidity)
+
 	if bVerbose :
 	  print( "Humidity : %f%%" % humidity)
 
@@ -573,21 +577,21 @@ if BME280_CHIP_ID == chip_id:
 	initEvent(ex, id_humidity, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_HUMIDITY)
 
 	# Size is predata + string length + terminating zero
-	ex.sizedata = 4 + len(humidity) + 1
+	ex.sizedata = 4 + len(humidity_str) + 1
 	ex.data[0] = sensorindex_humidity
 	ex.data[1] = zone
 	ex.data[2] = subzone
 	ex.data[3] = 0  # default unit % of moisture
-	b = humidity.encode()
+	b = humidity_str.encode()
 	for idx in range(len(b)):
 	  ex.data[idx + 4] = b[idx]
-	ex.data[4 + len(humidity)] = 0  # optional terminating zero
+	ex.data[4 + len(humidity_str)] = 0  # optional terminating zero
 
 	j = ex.toJSON()
 	j["vscpNote"] = note_humidity
 	# Add extra measurement information
 	j["measurement"] = { 
-	  "value" : float(humidity),
+	  "value" : humidity,
 	  "unit" : 0,
 	  "sensorindex" : sensorindex_humidity,
 	  "zone" : zone,
@@ -602,6 +606,9 @@ if BME280_CHIP_ID == chip_id:
 #                             P R E S S U R E
 # -----------------------------------------------------------------------------
 
+pressure = 100 * pressure
+pressure_str = "{:f}".format(pressure)
+
 if bVerbose :
   print( "Pressure : %f hPa" % pressure)
 
@@ -609,21 +616,21 @@ ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
 
 # Size is predata + string length + terminating zero
-ex.sizedata = 4 + len(pressure) + 1
+ex.sizedata = 4 + len(pressure_str) + 1
 ex.data[0] = sensorindex_pressure
 ex.data[1] = zone
 ex.data[2] = subzone
 ex.data[3] = 0  # default unit Pascal
-b = pressure.encode()
+b = pressure_str.encode()
 for idx in range(len(b)):
   ex.data[idx + 4] = b[idx]
-ex.data[4 + len(pressure)] = 0  # optional terminating zero
+ex.data[4 + len(pressure_str)] = 0  # optional terminating zero
 
 j = ex.toJSON()
 j["vscpNote"] = note_pressure
 # Add extra pressure information
 j["measurement"] = { 
-  "value" : float(pressure),
+  "value" : pressure,
   "unit" : 0,
   "sensorindex" : sensorindex_pressure,
   "zone" : zone,
@@ -638,31 +645,31 @@ if ( len(ptopic) ):
 #                           Adjusted Pressure
 # -----------------------------------------------------------------------------
 
-pressure_adj = "{:0.0f}".format((pressure + height_at_location/8.3)*100)
+pressure_adj_str = "{:f}".format((pressure + height_at_location/8.3)*100)
 
 
 if bVerbose :
-	print( "Pressure : %f hPa" % pressure_adj)
+	print( "Pressure : %f hPa" % pressure_adj_str)
 
 ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
 
 # Size is predata + string length + terminating zero
-ex.sizedata = 4 + len(pressure_adj) + 1
+ex.sizedata = 4 + len(pressure_adj_str) + 1
 ex.data[0] = sensorindex_pressure_adj
 ex.data[1] = zone
 ex.data[2] = subzone
 ex.data[3] = 0  # default unit Pascal
-b = pressure_adj.encode()
+b = pressure_adj_str.encode()
 for idx in range(len(b)):
   ex.data[idx + 4] = b[idx]
-ex.data[4 + len(pressure_adj)] = 0  # optional terminating zero
+ex.data[4 + len(pressure_adj_str)] = 0  # optional terminating zero
 
 j = ex.toJSON()
 j["vscpNote"] = note_pressure_adj
 # Add extra pressure information
 j["measurement"] = { 
-  "value" : float(pressure_adj),
+  "value" : float(pressure_adj_str),
   "unit" : 0,
   "sensorindex" : sensorindex_pressure_adj,
   "zone" : zone,
@@ -679,39 +686,40 @@ if ( len(ptopic) ):
 
 if BME280_CHIP_ID == chip_id:
 
-	dewpoint = temperature - ((100 - humidity) / 5)
+  dewpoint = temperature - ((100 - humidity) / 5)
+  dewpoint_str = "{:0.2f}".format(dewpoint)
 
-	if bVerbose :
+  if bVerbose :
 	  print( "Dewpoint : %f C" % dewpoint)
 
-	ex = vscp.vscpEventEx()
-	initEvent(ex, id_dewpoint, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_DEWPOINT)
+  ex = vscp.vscpEventEx()
+  initEvent(ex, id_dewpoint, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_DEWPOINT)
 
-	# Size is predata + string length + terminating zero
-	ex.sizedata = 4 + len(dewpoint) + 1
-	ex.data[0] = sensorindex_dewpoint
-	ex.data[1] = zone
-	ex.data[2] = subzone
-	ex.data[3] = 0  # default unit Pascal
-	b = pressure.encode()
-	for idx in range(len(b)):
-	  ex.data[idx + 4] = b[idx]
-	ex.data[4 + len(dewpoint)] = 0  # optional terminating zero
+  # Size is predata + string length + terminating zero
+  ex.sizedata = 4 + len(dewpoint) + 1
+  ex.data[0] = sensorindex_dewpoint
+  ex.data[1] = zone
+  ex.data[2] = subzone
+  ex.data[3] = 0  # default unit Pascal
+  b = pressure_str.encode()
+  for idx in range(len(b)):
+    ex.data[idx + 4] = b[idx]
+  ex.data[4 + len(dewpoint)] = 0  # optional terminating zero
 
-	j = ex.toJSON()
-	j["vscpNote"] = note_dewpoint
-	# Add extra pressure information
-	j["measurement"] = { 
-	  "value" : float(dewpoint),
-	  "unit" : 0,
-	  "sensorindex" : sensorindex_dewpoint,
-	  "zone" : zone,
-	  "subzone" : subzone
-	}
+  j = ex.toJSON()
+  j["vscpNote"] = note_dewpoint
+  # Add extra pressure information
+  j["measurement"] = { 
+    "value" : float(dewpoint),
+    "unit" : 0,
+    "sensorindex" : sensorindex_dewpoint,
+    "zone" : zone,
+    "subzone" : subzone
+  }
 
-	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-	if ( len(ptopic) ):
-	  client.publish(ptopic, json.dumps(j))
+  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+  if ( len(ptopic) ):
+    client.publish(ptopic, json.dumps(j))
 
 	# -----------------------------------------------------------------------------
 
