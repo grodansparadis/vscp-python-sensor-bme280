@@ -307,134 +307,134 @@ if (len(cfgpath)):
 	  if bVerbose:
 	    print("sensorindex_humidity =", sensorindex_humidity)
   
-	if 'sensorindex_pressure' in config['VSCP']:        
+	if 'sensorindex_pressure' in config['VSCP']:
 	  sensorindex_pressure = int(config['VSCP']['sensorindex_pressure'])
 	  if bVerbose:
 	    print("sensorindex_pressure =", sensorindex_pressure)
 
-  if 'sensorindex_pressure_adj' in config['VSCP']:        
+  if 'sensorindex_pressure_adj' in config['VSCP']:
 	  sensorindex_pressure_adj = int(config['VSCP']['sensorindex_pressure_adj'])
 	  if bVerbose:
 	    print("sensorindex_pressure_adj =", sensorindex_pressure_adj)
 
-  if 'sensorindex_gas' in config['VSCP']:        
+  if 'sensorindex_gas' in config['VSCP']:
 	  sensorindex_gas = int(config['VSCP']['sensorindex_gas'])
 	  if bVerbose:
 	    print("sensorindex_gas =", sensorindex_gas)
 
-  if 'sensorindex_altitude' in config['VSCP']:        
+  if 'sensorindex_altitude' in config['VSCP']:
 	  sensorindex_altitude = int(config['VSCP']['sensorindex_altitude'])
 	  if bVerbose:
 	     print("sensorindex_altitude =", sensorindex_altitude)
 
-	if 'sensorindex_dewpoint' in config['VSCP']:        
+	if 'sensorindex_dewpoint' in config['VSCP']:
 	  sensorindex_dewpoint = int(config['VSCP']['sensorindex_dewpoint'])
 	  if bVerbose:
 	    print("sensorindex_dewpoint =", sensorindex_dewpoint)
 
-	if 'zone' in config['VSCP']:        
+	if 'zone' in config['VSCP']:
 	  zone = int(config['VSCP']['zone'])
 	  if bVerbose:
 	    print("zone =", zone)
 
-	if 'subzone' in config['VSCP']:        
+	if 'subzone' in config['VSCP']:
 	  subzone = int(config['VSCP']['subzone'])
 	  if bVerbose:
 	    print("subzone =", subzone)
 
-	if 'id_temperature' in config['VSCP']:        
+	if 'id_temperature' in config['VSCP']:
 	  id_temperature = int(config['VSCP']['id_temperature'])
 	  if bVerbose:
 	    print("id_temperature =", id_temperature)
 
-	if 'id_humidity' in config['VSCP']:        
+	if 'id_humidity' in config['VSCP']:
 	  id_humidity = int(config['VSCP']['id_humidity'])
 	  if bVerbose:
 	    print("id_humidity =", id_humidity)
 
-	if 'id_pressure' in config['VSCP']:        
+	if 'id_pressure' in config['VSCP']:
 	  id_pressure = int(config['VSCP']['id_pressure'])
 	  if bVerbose:
 	    print("id_pressure =", id_pressure)
 
-	if 'id_pressure_adj' in config['VSCP']:        
+	if 'id_pressure_adj' in config['VSCP']:
 	  id_pressure_adj = int(config['VSCP']['id_pressure_adj'])
 	  if bVerbose:
 	    print("id_pressure_adj =", id_pressure_adj)
 
-	if 'id_gas' in config['VSCP']:        
+	if 'id_gas' in config['VSCP']:
 	  id_gas = int(config['VSCP']['id_gas'])
 	  if bVerbose:
 	    print("id_gas =", id_gas)
 
-	if 'id_altitude' in config['VSCP']:        
+	if 'id_altitude' in config['VSCP']:
 	  id_altitude = int(config['VSCP']['id_altitude'])
 	  if bVerbose:
 	    print("id_altitude =", id_altitude)
 
-	if 'id_dewpoint' in config['VSCP']:        
+	if 'id_dewpoint' in config['VSCP']:
 	  id_dewpoint = int(config['VSCP']['id_dewpoint'])
 	  if bVerbose:
 	    print("id_dewpoint =", id_dewpoint)
 
 	# ----------------- MQTT -----------------
-	if 'host' in config['MQTT']:        
+	if 'host' in config['MQTT']: 
 	  host = config['MQTT']['host']
 	  if bVerbose:
 	    print("host =", host)
 
-	if 'port' in config['MQTT']:        
+	if 'port' in config['MQTT']:
 	  port = int(config['MQTT']['port'])
 	  if bVerbose:
 	    print("port =", port)
 
-	if 'user' in config['MQTT']:        
+	if 'user' in config['MQTT']:
 	  user = config['MQTT']['user']
 	  if bVerbose:
 	    print("user =", user)
 
-	if 'password' in config['MQTT']:        
+	if 'password' in config['MQTT']:
 	  password = config['MQTT']['password']
 	  if bVerbose:
 	    print("password =", "***********")
 	    #print("password =", password)
 
-	if 'topic' in config['MQTT']:        
+	if 'topic' in config['MQTT']:
 	  topic = config['MQTT']['topic']
 	  if bVerbose:
 	    print("topic =", password)
 
-	if 'note_temperature' in config['MQTT']:        
+	if 'note_temperature' in config['MQTT']:
 	  note_temperature = config['MQTT']['note_temperature']
 	  if bVerbose:
 	    print("note_temperature =", note_temperature)
 
-	if 'note_humidity' in config['MQTT']:        
+	if 'note_humidity' in config['MQTT']:
 	  note_humidity = config['MQTT']['note_humidity']
 	  if bVerbose:
 	    print("note_humidity =", note_humidity)
 
-	if 'note_pressure' in config['MQTT']:        
+	if 'note_pressure' in config['MQTT']:
 	  note_pressure = config['MQTT']['note_pressure']
 	  if bVerbose:
 	    print("note_pressure =", note_pressure)
 
-	if 'note_pressure_adj' in config['MQTT']:        
+	if 'note_pressure_adj' in config['MQTT']:
 	  note_pressure_adj = config['MQTT']['note_pressure_adj']
 	  if bVerbose:
 	    print("note_pressure_adj =", note_pressure_adj)
 
-	if 'note_gas' in config['MQTT']:        
+	if 'note_gas' in config['MQTT']:
 	  note_gas = config['MQTT']['note_gas']
 	  if bVerbose:
 	    print("note_gas =", note_gas)
 
-	if 'note_altitude' in config['MQTT']:        
+	if 'note_altitude' in config['MQTT']:
 	  note_altitude = config['MQTT']['note_altitude']
 	  if bVerbose:
 	    print("note_altitude =", note_altitude)
 
-	if 'note_dewpoint' in config['MQTT']:        
+	if 'note_dewpoint' in config['MQTT']:
 	  note_dewpoint = config['MQTT']['note_dewpoint']
 	  if bVerbose:
 	    print("note_dewpoint =", note_dewpoint)
@@ -459,7 +459,7 @@ if (len(cfgpath)):
 	    print("height_at_location =", temp_corr)
 
 	# -----------------------------------------------------------------------------
-  
+
 	# define message callback
 	def on_message(client, userdata, msg):
 	  print(msg.topic+" "+str(msg.payload))
