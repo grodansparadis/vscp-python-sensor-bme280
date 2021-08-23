@@ -472,13 +472,13 @@ if (len(cfgpath)):
 
 	# -----------------------------------------------------------------------------
 
-	# define message callback
-  def on_message(client, userdata, msg):
-	  print(msg.topic+" "+str(msg.payload))
+# define message callback
+def on_message(client, userdata, msg):
+	print(msg.topic+" "+str(msg.payload))
 
-	# define connect callback
-  def on_connect(client, userdata, flags, rc):
-	  print("Connected =",str(rc))
+# define connect callback
+def on_connect(client, userdata, flags, rc):
+	print("Connected =",str(rc))
 
 client= mqtt.Client()
 
