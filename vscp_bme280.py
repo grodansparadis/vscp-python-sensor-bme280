@@ -391,7 +391,7 @@ if (len(cfgpath)):
 	  if bVerbose:
 	    print("id_dewpoint =", id_dewpoint)
 
-	# ----------------- MQTT -----------------
+# ----------------- MQTT -----------------
   if 'host' in config['MQTT']: 
 	  host = config['MQTT']['host']
 	  if bVerbose:
@@ -514,13 +514,14 @@ def initEvent(ex,id,vscpClass,vscpType):
 
 # -----------------------------------------------------------------------------
 
-if bVerbose :
-	print("-------------------------------------------------------------------------------")
-	print("Sending...")
-
+# Read sensor id etc
 (chip_id, chip_version) = readBME280ID()
-print( "Chip ID     : %d" % chip_id)
-print( "Version     : %d" % chip_version)
+
+if bVerbose :
+  print("-------------------------------------------------------------------------------")
+  print("Sending events...")
+  print( "Chip ID     : %d" % chip_id)
+  print( "Version     : %d" % chip_version)
 
 temperature,pressure,humidity = readBME280All()
 
