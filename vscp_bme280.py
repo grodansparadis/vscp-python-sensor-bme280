@@ -279,12 +279,12 @@ for opt, arg in opts:
   elif opt in ("-c", "--config"):
       cfgpath = arg
 
-if (len(cfgpath)):
-
+if (len(cfgpath)):  
+  
   init = config.read(cfgpath)
 
-	# ----------------- GENERAL -----------------
-	if 'bVerbose' in config['GENERAL']:
+  # ----------------- GENERAL -----------------
+  if 'bVerbose' in config['GENERAL']:
 	  bVerbose = config.getboolean('GENERAL','bVerbose')
 	  if bVerbose :
 	      print('Verbose mode enabled.')
