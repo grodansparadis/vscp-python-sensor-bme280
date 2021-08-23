@@ -259,8 +259,8 @@ def main():
 
 # ----------------------------------------------------------------------------
 
-    args = sys.argv[1:]
-    nargs = len(args)
+  args = sys.argv[1:]
+  nargs = len(args)
 
   try:
       opts, args = getopt.getopt(args,"hvc:",["help","verbose","config="])
