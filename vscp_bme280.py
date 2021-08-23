@@ -317,8 +317,8 @@ if (len(cfgpath)):
 	  sensorindex_humidity = int(config['VSCP']['sensorindex_humidity'])
 	  if bVerbose:
 	    print("sensorindex_humidity =", sensorindex_humidity)
-
-	if 'sensorindex_pressure' in config['VSCP']:
+  
+  if 'sensorindex_pressure' in config['VSCP']:
 	  sensorindex_pressure = int(config['VSCP']['sensorindex_pressure'])
 	  if bVerbose:
 	    print("sensorindex_pressure =", sensorindex_pressure)
@@ -337,133 +337,134 @@ if (len(cfgpath)):
 	  sensorindex_altitude = int(config['VSCP']['sensorindex_altitude'])
 	  if bVerbose:
 	     print("sensorindex_altitude =", sensorindex_altitude)
-
-	if 'sensorindex_dewpoint' in config['VSCP']:
+  
+  if 'sensorindex_dewpoint' in config['VSCP']:
 	  sensorindex_dewpoint = int(config['VSCP']['sensorindex_dewpoint'])
 	  if bVerbose:
 	    print("sensorindex_dewpoint =", sensorindex_dewpoint)
-
-	if 'zone' in config['VSCP']:
+      
+  if 'zone' in config['VSCP']:
 	  zone = int(config['VSCP']['zone'])
 	  if bVerbose:
 	    print("zone =", zone)
-
-	if 'subzone' in config['VSCP']:
+      
+  if 'subzone' in config['VSCP']:
 	  subzone = int(config['VSCP']['subzone'])
 	  if bVerbose:
 	    print("subzone =", subzone)
-
-	if 'id_temperature' in config['VSCP']:
+      
+  if 'id_temperature' in config['VSCP']:
 	  id_temperature = int(config['VSCP']['id_temperature'])
 	  if bVerbose:
 	    print("id_temperature =", id_temperature)
-
-	if 'id_humidity' in config['VSCP']:
+      
+  if 'id_humidity' in config['VSCP']:
 	  id_humidity = int(config['VSCP']['id_humidity'])
 	  if bVerbose:
 	    print("id_humidity =", id_humidity)
-
-	if 'id_pressure' in config['VSCP']:
+      
+  if 'id_pressure' in config['VSCP']:
 	  id_pressure = int(config['VSCP']['id_pressure'])
 	  if bVerbose:
 	    print("id_pressure =", id_pressure)
-
-	if 'id_pressure_adj' in config['VSCP']:
+      
+  if 'id_pressure_adj' in config['VSCP']:
 	  id_pressure_adj = int(config['VSCP']['id_pressure_adj'])
 	  if bVerbose:
 	    print("id_pressure_adj =", id_pressure_adj)
-
-	if 'id_gas' in config['VSCP']:
+      
+  if 'id_gas' in config['VSCP']:
 	  id_gas = int(config['VSCP']['id_gas'])
 	  if bVerbose:
 	    print("id_gas =", id_gas)
-
-	if 'id_altitude' in config['VSCP']:
+      
+  if 'id_altitude' in config['VSCP']:
 	  id_altitude = int(config['VSCP']['id_altitude'])
 	  if bVerbose:
 	    print("id_altitude =", id_altitude)
-
-	if 'id_dewpoint' in config['VSCP']:
+      
+  if 'id_dewpoint' in config['VSCP']:
 	  id_dewpoint = int(config['VSCP']['id_dewpoint'])
 	  if bVerbose:
 	    print("id_dewpoint =", id_dewpoint)
 
 	# ----------------- MQTT -----------------
-	if 'host' in config['MQTT']: 
+  if 'host' in config['MQTT']: 
 	  host = config['MQTT']['host']
 	  if bVerbose:
 	    print("host =", host)
-
-	if 'port' in config['MQTT']:
+      
+  if 'port' in config['MQTT']:
 	  port = int(config['MQTT']['port'])
 	  if bVerbose:
 	    print("port =", port)
-
-	if 'user' in config['MQTT']:
+      
+  if 'user' in config['MQTT']:
 	  user = config['MQTT']['user']
 	  if bVerbose:
 	    print("user =", user)
-
-	if 'password' in config['MQTT']:
+      
+  if 'password' in config['MQTT']:
 	  password = config['MQTT']['password']
 	  if bVerbose:
 	    print("password =", "***********")
 	    # print("password =", password)
-
-	if 'topic' in config['MQTT']:
+      
+  if 'topic' in config['MQTT']:
 	  topic = config['MQTT']['topic']
 	  if bVerbose:
 	    print("topic =", password)
-
-	if 'note_temperature' in config['MQTT']:
+      
+  if 'note_temperature' in config['MQTT']:
 	  note_temperature = config['MQTT']['note_temperature']
 	  if bVerbose:
 	    print("note_temperature =", note_temperature)
-
-	if 'note_humidity' in config['MQTT']:
+      
+  if 'note_humidity' in config['MQTT']:
 	  note_humidity = config['MQTT']['note_humidity']
 	  if bVerbose:
 	    print("note_humidity =", note_humidity)
-
-	if 'note_pressure' in config['MQTT']:
+      
+  if 'note_pressure' in config['MQTT']:
 	  note_pressure = config['MQTT']['note_pressure']
 	  if bVerbose:
 	    print("note_pressure =", note_pressure)
-
-	if 'note_pressure_adj' in config['MQTT']:
+      
+  if 'note_pressure_adj' in config['MQTT']:
 	  note_pressure_adj = config['MQTT']['note_pressure_adj']
 	  if bVerbose:
 	    print("note_pressure_adj =", note_pressure_adj)
-
-	if 'note_gas' in config['MQTT']:
+      
+  if 'note_gas' in config['MQTT']:
 	  note_gas = config['MQTT']['note_gas']
 	  if bVerbose:
 	    print("note_gas =", note_gas)
-
-	if 'note_altitude' in config['MQTT']:
+      
+  if 'note_altitude' in config['MQTT']:
 	  note_altitude = config['MQTT']['note_altitude']
 	  if bVerbose:
 	    print("note_altitude =", note_altitude)
-
-	if 'note_dewpoint' in config['MQTT']:
+      
+  if 'note_dewpoint' in config['MQTT']:
 	  note_dewpoint = config['MQTT']['note_dewpoint']
 	  if bVerbose:
 	    print("note_dewpoint =", note_dewpoint)
 
 	# ----------------- BME280 -----------------
-	if 'sea_level_pressure' in config['BME280']:
+   
+  if 'sea_level_pressure' in config['BME280']:
 	  if not bDebug :
 	    sea_level_pressure = float(config['BME280']['sea_level_pressure'])       
 	  if bVerbose:
 	    print("sea_level_pressure =", float(config['BME280']['sea_level_pressure']))
 
-	if 'temp_corr' in config['BME280']:
+  if 'temp_corr' in config['BME280']:
 	  if not bDebug :
 	    temp_corr = float(config['BME280']['temp_corr'])       
 	  if bVerbose:
 	    print("temp_corr =", temp_corr)
 
-	if 'height_at_location' in config['BME280']:
+  if 'height_at_location' in config['BME280']:
 	  if not bDebug :
 	    height_at_location = float(config['BME280']['height_at_location'])       
 	  if bVerbose:
@@ -472,11 +473,11 @@ if (len(cfgpath)):
 	# -----------------------------------------------------------------------------
 
 	# define message callback
-	def on_message(client, userdata, msg):
+  def on_message(client, userdata, msg):
 	  print(msg.topic+" "+str(msg.payload))
 
 	# define connect callback
-	def on_connect(client, userdata, flags, rc):
+  def on_connect(client, userdata, flags, rc):
 	  print("Connected =",str(rc))
 
 client= mqtt.Client()
