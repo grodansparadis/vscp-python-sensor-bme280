@@ -531,7 +531,7 @@ temperature,pressure,humidity = readBME280All()
 temperature_str = "{:0.2f}".format(temperature - temp_corr)
 
 if bVerbose :
-	print( "Temperature : %f C" % (temperature - temp_corr))
+	print( "Temperature : %0.2f C" % (temperature - temp_corr))
 
 ex = vscp.vscpEventEx()
 g = initEvent(ex, id_temperature, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_TEMPERATURE)
@@ -568,7 +568,7 @@ if ( len(ptopic) ):
 
 if BME280_CHIP_ID == chip_id:
 
-  humidity_str = "{:f}".format(humidity)
+  humidity_str = "{:0.0f}".format(humidity)
 
   if bVerbose :
 	  print( "Humidity : %f%%" % humidity)
@@ -607,10 +607,10 @@ if BME280_CHIP_ID == chip_id:
 # -----------------------------------------------------------------------------
 
 pressure = pressure
-pressure_str = "{:f}".format(pressure)
+pressure_str = "{:0.2f}".format(pressure)
 
 if bVerbose :
-  print( "Pressure : %f0.2 hPa" % pressure)
+  print( "Pressure : %0.2f hPa" % pressure)
 
 ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
@@ -648,7 +648,7 @@ if ( len(ptopic) ):
 pressure_adj_str = "{:f}".format((pressure + height_at_location/8.3))
 
 if bVerbose :
-	print( "Adjusted pressure : %f0.2 hPa" % float(pressure_adj_str))
+	print( "Adjusted pressure : %0.2f hPa" % float(pressure_adj_str))
 
 ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
