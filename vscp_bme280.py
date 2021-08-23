@@ -53,6 +53,9 @@ sea_level_pressure = 1013.25
 # Print some info along the way
 bVerbose = True
 
+# Print debug info if true
+bDebug = True
+
 # Subtract this value from reported temperature
 temp_corr = 0.0
 
