@@ -516,8 +516,8 @@ if bVerbose :
 	print("Sending...")
 
 (chip_id, chip_version) = readBME280ID()
-	print( "Chip ID     : %d" % chip_id)
-	print( "Version     : %d" % chip_version)
+print( "Chip ID     : %d" % chip_id)
+print( "Version     : %d" % chip_version)
 
 temperature,pressure,humidity = readBME280All()
 
