@@ -51,7 +51,7 @@ DEVICE = 0x76  # Default device I2C address
 sea_level_pressure = 1013.25
 
 # Print some info along the way
-bVerbose = True
+bVerbose = False
 
 # Print debug info if true
 bDebug = False
