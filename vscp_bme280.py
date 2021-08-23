@@ -51,7 +51,7 @@ DEVICE = 0x76 # Default device I2C address
 sea_level_pressure = 1013.25
 
 # Print some info along the way
-bVerbose = False
+bVerbose = True
 
 # Subtract this value from reported temperature
 temp_corr = 0.0
@@ -64,7 +64,7 @@ height_at_location = 0.0
 guid=""
 
 # MQTT broker
-host="127.0.0.1"
+host="192.168.1.7"
 
 # MQTT broker port
 port=1883
@@ -255,455 +255,455 @@ def readBME280All(addr=DEVICE):
 
   return temperature/100.0,pressure/100.0,humidity
 
-def main():
+#def main():
 
 # ----------------------------------------------------------------------------
+print("-------------------------->")
+args = sys.argv[1:]
+nargs = len(args)
 
-  args = sys.argv[1:]
-  nargs = len(args)
-
-  try:
-      opts, args = getopt.getopt(args,"hvc:",["help","verbose","config="])
-  except getopt.GetoptError:
-      print("unrecognized format!")
-      usage()
-      sys.exit(2)
-  for opt, arg in opts:
+try:
+   opts, args = getopt.getopt(args,"hvc:",["help","verbose","config="])
+except getopt.GetoptError:
+   print("unrecognized format!")
+   usage()
+   sys.exit(2)
+   for opt, arg in opts:
       if opt in ("-h", "--help"):
-          print("HELP")
-          usage()
-          sys.exit()
+         print("HELP")
+         usage()
+         sys.exit()
       elif opt in ("-v", "--verbose"):
-          bVerbose = True
+         bVerbose = True
       elif opt in ("-c", "--config"):
-          cfgpath = arg
+         cfgpath = arg
 
-  if (len(cfgpath)):
+if (len(cfgpath)):
 
-      init = config.read(cfgpath)
+   init = config.read(cfgpath)
 
-      # ----------------- GENERAL -----------------
-      if 'bVerbose' in config['GENERAL']:
-          bVerbose = config.getboolean('GENERAL','bVerbose')
-          if bVerbose :
-              print('Verbose mode enabled.')
-              print('READING CONFIGURATION')
-              print('---------------------')    
+	# ----------------- GENERAL -----------------
+	if 'bVerbose' in config['GENERAL']:
+	  bVerbose = config.getboolean('GENERAL','bVerbose')
+	  if bVerbose :
+	      print('Verbose mode enabled.')
+	      print('READING CONFIGURATION')
+	      print('---------------------')    
 
-      # ----------------- VSCP -----------------
-      if 'guid' in config['VSCP']:        
-          guid = config['VSCP']['guid']
-          if bVerbose:
-              print("guid =", guid)
-      
-      if 'sensorindex_temperature' in config['VSCP']:        
-          sensorindex_temperature = int(config['VSCP']['sensorindex_temperature'])
-          if bVerbose:
-              print("sensorindex_temperature =", sensorindex_temperature)
+	# ----------------- VSCP -----------------
+	if 'guid' in config['VSCP']:        
+	  guid = config['VSCP']['guid']
+	  if bVerbose:
+	      print("guid =", guid)
 
-      if 'sensorindex_humidity' in config['VSCP']:        
-          sensorindex_humidity = int(config['VSCP']['sensorindex_humidity'])
-          if bVerbose:
-              print("sensorindex_humidity =", sensorindex_humidity)
-      
-      if 'sensorindex_pressure' in config['VSCP']:        
-          sensorindex_pressure = int(config['VSCP']['sensorindex_pressure'])
-          if bVerbose:
-              print("sensorindex_pressure =", sensorindex_pressure)
-      
-      if 'sensorindex_pressure_adj' in config['VSCP']:        
-          sensorindex_pressure_adj = int(config['VSCP']['sensorindex_pressure_adj'])
-          if bVerbose:
-              print("sensorindex_pressure_adj =", sensorindex_pressure_adj)
-      
-      if 'sensorindex_gas' in config['VSCP']:        
-          sensorindex_gas = int(config['VSCP']['sensorindex_gas'])
-          if bVerbose:
-              print("sensorindex_gas =", sensorindex_gas)
-      
-      if 'sensorindex_altitude' in config['VSCP']:        
-          sensorindex_altitude = int(config['VSCP']['sensorindex_altitude'])
-          if bVerbose:
-              print("sensorindex_altitude =", sensorindex_altitude)
+	if 'sensorindex_temperature' in config['VSCP']:        
+	  sensorindex_temperature = int(config['VSCP']['sensorindex_temperature'])
+	  if bVerbose:
+	      print("sensorindex_temperature =", sensorindex_temperature)
 
-      if 'sensorindex_dewpoint' in config['VSCP']:        
-          sensorindex_dewpoint = int(config['VSCP']['sensorindex_dewpoint'])
-          if bVerbose:
-              print("sensorindex_dewpoint =", sensorindex_dewpoint)
-      
-      if 'zone' in config['VSCP']:        
-          zone = int(config['VSCP']['zone'])
-          if bVerbose:
-              print("zone =", zone)
+	if 'sensorindex_humidity' in config['VSCP']:        
+	  sensorindex_humidity = int(config['VSCP']['sensorindex_humidity'])
+	  if bVerbose:
+	      print("sensorindex_humidity =", sensorindex_humidity)
 
-      if 'subzone' in config['VSCP']:        
-          subzone = int(config['VSCP']['subzone'])
-          if bVerbose:
-              print("subzone =", subzone)
-      
-      if 'id_temperature' in config['VSCP']:        
-          id_temperature = int(config['VSCP']['id_temperature'])
-          if bVerbose:
-              print("id_temperature =", id_temperature)
-      
-      if 'id_humidity' in config['VSCP']:        
-          id_humidity = int(config['VSCP']['id_humidity'])
-          if bVerbose:
-              print("id_humidity =", id_humidity)
-      
-      if 'id_pressure' in config['VSCP']:        
-          id_pressure = int(config['VSCP']['id_pressure'])
-          if bVerbose:
-              print("id_pressure =", id_pressure)
-      
-      if 'id_pressure_adj' in config['VSCP']:        
-          id_pressure_adj = int(config['VSCP']['id_pressure_adj'])
-          if bVerbose:
-              print("id_pressure_adj =", id_pressure_adj)
-      
-      if 'id_gas' in config['VSCP']:        
-          id_gas = int(config['VSCP']['id_gas'])
-          if bVerbose:
-              print("id_gas =", id_gas)
-      
-      if 'id_altitude' in config['VSCP']:        
-          id_altitude = int(config['VSCP']['id_altitude'])
-          if bVerbose:
-              print("id_altitude =", id_altitude)
-      
-      if 'id_dewpoint' in config['VSCP']:        
-          id_dewpoint = int(config['VSCP']['id_dewpoint'])
-          if bVerbose:
-              print("id_dewpoint =", id_dewpoint)
-      
-      # ----------------- MQTT -----------------
-      if 'host' in config['MQTT']:        
-          host = config['MQTT']['host']
-          if bVerbose:
-              print("host =", host)
+	if 'sensorindex_pressure' in config['VSCP']:        
+	  sensorindex_pressure = int(config['VSCP']['sensorindex_pressure'])
+	  if bVerbose:
+	      print("sensorindex_pressure =", sensorindex_pressure)
 
-      if 'port' in config['MQTT']:        
-          port = int(config['MQTT']['port'])
-          if bVerbose:
-              print("port =", port)
+	if 'sensorindex_pressure_adj' in config['VSCP']:        
+	  sensorindex_pressure_adj = int(config['VSCP']['sensorindex_pressure_adj'])
+	  if bVerbose:
+	      print("sensorindex_pressure_adj =", sensorindex_pressure_adj)
 
-      if 'user' in config['MQTT']:        
-          user = config['MQTT']['user']
-          if bVerbose:
-              print("user =", user)
-      
-      if 'password' in config['MQTT']:        
-          password = config['MQTT']['password']
-          if bVerbose:
-              print("password =", "***********")
-              #print("password =", password)
+	if 'sensorindex_gas' in config['VSCP']:        
+	  sensorindex_gas = int(config['VSCP']['sensorindex_gas'])
+	  if bVerbose:
+	      print("sensorindex_gas =", sensorindex_gas)
 
-      if 'topic' in config['MQTT']:        
-          topic = config['MQTT']['topic']
-          if bVerbose:
-              print("topic =", password)
-      
-      if 'note_temperature' in config['MQTT']:        
-          note_temperature = config['MQTT']['note_temperature']
-          if bVerbose:
-              print("note_temperature =", note_temperature)
-      
-      if 'note_humidity' in config['MQTT']:        
-          note_humidity = config['MQTT']['note_humidity']
-          if bVerbose:
-              print("note_humidity =", note_humidity)
-      
-      if 'note_pressure' in config['MQTT']:        
-          note_pressure = config['MQTT']['note_pressure']
-          if bVerbose:
-              print("note_pressure =", note_pressure)
-      
-      if 'note_pressure_adj' in config['MQTT']:        
-          note_pressure_adj = config['MQTT']['note_pressure_adj']
-          if bVerbose:
-              print("note_pressure_adj =", note_pressure_adj)
+	if 'sensorindex_altitude' in config['VSCP']:        
+	  sensorindex_altitude = int(config['VSCP']['sensorindex_altitude'])
+	  if bVerbose:
+	      print("sensorindex_altitude =", sensorindex_altitude)
 
-      if 'note_gas' in config['MQTT']:        
-          note_gas = config['MQTT']['note_gas']
-          if bVerbose:
-              print("note_gas =", note_gas)
+	if 'sensorindex_dewpoint' in config['VSCP']:        
+	  sensorindex_dewpoint = int(config['VSCP']['sensorindex_dewpoint'])
+	  if bVerbose:
+	      print("sensorindex_dewpoint =", sensorindex_dewpoint)
 
-      if 'note_altitude' in config['MQTT']:        
-          note_altitude = config['MQTT']['note_altitude']
-          if bVerbose:
-              print("note_altitude =", note_altitude)
-      
-      if 'note_dewpoint' in config['MQTT']:        
-          note_dewpoint = config['MQTT']['note_dewpoint']
-          if bVerbose:
-              print("note_dewpoint =", note_dewpoint)
-      
-      # ----------------- BME280 -----------------
-      if 'sea_level_pressure' in config['BME280']:
-          if not bDebug :
-              sea_level_pressure = float(config['BME280']['sea_level_pressure'])       
-          if bVerbose:
-              print("sea_level_pressure =", float(config['BME280']['sea_level_pressure']))
-      
-      if 'temp_corr' in config['BME280']:
-          if not bDebug :
-              temp_corr = float(config['BME280']['temp_corr'])       
-          if bVerbose:
-              print("temp_corr =", temp_corr)
-      
-      if 'height_at_location' in config['BME280']:
-          if not bDebug :
-              height_at_location = float(config['BME280']['height_at_location'])       
-          if bVerbose:
-              print("height_at_location =", temp_corr)
+	if 'zone' in config['VSCP']:        
+	  zone = int(config['VSCP']['zone'])
+	  if bVerbose:
+	      print("zone =", zone)
 
-# -----------------------------------------------------------------------------
+	if 'subzone' in config['VSCP']:        
+	  subzone = int(config['VSCP']['subzone'])
+	  if bVerbose:
+	      print("subzone =", subzone)
 
-  # define message callback
-def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+	if 'id_temperature' in config['VSCP']:        
+	  id_temperature = int(config['VSCP']['id_temperature'])
+	  if bVerbose:
+	      print("id_temperature =", id_temperature)
 
-# define connect callback
-def on_connect(client, userdata, flags, rc):
-    print("Connected =",str(rc))
+	if 'id_humidity' in config['VSCP']:        
+	  id_humidity = int(config['VSCP']['id_humidity'])
+	  if bVerbose:
+	      print("id_humidity =", id_humidity)
 
-client= mqtt.Client()
+	if 'id_pressure' in config['VSCP']:        
+	  id_pressure = int(config['VSCP']['id_pressure'])
+	  if bVerbose:
+	      print("id_pressure =", id_pressure)
 
-# bind callback function
-client.on_message=on_connect
-client.on_message=on_message
+	if 'id_pressure_adj' in config['VSCP']:        
+	  id_pressure_adj = int(config['VSCP']['id_pressure_adj'])
+	  if bVerbose:
+	      print("id_pressure_adj =", id_pressure_adj)
 
-client.username_pw_set(user, password)
+	if 'id_gas' in config['VSCP']:        
+	  id_gas = int(config['VSCP']['id_gas'])
+	  if bVerbose:
+	      print("id_gas =", id_gas)
 
-if bVerbose :
-    print("\n\nConnection in progress...", host)
-client.connect(host,port)    
+	if 'id_altitude' in config['VSCP']:        
+	  id_altitude = int(config['VSCP']['id_altitude'])
+	  if bVerbose:
+	      print("id_altitude =", id_altitude)
 
-client.loop_start()     # start loop to process received messages
+	if 'id_dewpoint' in config['VSCP']:        
+	  id_dewpoint = int(config['VSCP']['id_dewpoint'])
+	  if bVerbose:
+	      print("id_dewpoint =", id_dewpoint)
 
-# Initialize VSCP event content
-def initEvent(ex,id,vscpClass,vscpType):
-    # Dumb node, priority normal
-    ex.head = vscp.VSCP_PRIORITY_NORMAL | vscp.VSCP_HEADER16_DUMB
-    g = vscp.guid()
-    if ("" == guid):
-        g.setFromString(guid)
-    else :    
-        g.setGUIDFromMAC(id)
-    ex.guid = g.guid
-    ex.vscpclass = vscpClass
-    ex.vscptype = vscpType
-    return g
+	# ----------------- MQTT -----------------
+	if 'host' in config['MQTT']:        
+	  host = config['MQTT']['host']
+	  if bVerbose:
+	      print("host =", host)
 
-# -----------------------------------------------------------------------------
+	if 'port' in config['MQTT']:        
+	  port = int(config['MQTT']['port'])
+	  if bVerbose:
+	      print("port =", port)
 
-if bVerbose :
-  print("-------------------------------------------------------------------------------")
-  print("Sending...")
+	if 'user' in config['MQTT']:        
+	  user = config['MQTT']['user']
+	  if bVerbose:
+	      print("user =", user)
 
-(chip_id, chip_version) = readBME280ID()
-print( "Chip ID     : %d" % chip_id)
-print( "Version     : %d" % chip_version)
+	if 'password' in config['MQTT']:        
+	  password = config['MQTT']['password']
+	  if bVerbose:
+	      print("password =", "***********")
+	      #print("password =", password)
 
-temperature,pressure,humidity = readBME280All()
+	if 'topic' in config['MQTT']:        
+	  topic = config['MQTT']['topic']
+	  if bVerbose:
+	      print("topic =", password)
 
-# -----------------------------------------------------------------------------
-#                           T E M P E R A T U R E
-# -----------------------------------------------------------------------------
+	if 'note_temperature' in config['MQTT']:        
+	  note_temperature = config['MQTT']['note_temperature']
+	  if bVerbose:
+	      print("note_temperature =", note_temperature)
 
-if bVerbose :
-  print( "Temperature : %f C" % temperature)
+	if 'note_humidity' in config['MQTT']:        
+	  note_humidity = config['MQTT']['note_humidity']
+	  if bVerbose:
+	      print("note_humidity =", note_humidity)
 
-ex = vscp.vscpEventEx()
-g = initEvent(ex, id_temperature, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_TEMPERATURE)
+	if 'note_pressure' in config['MQTT']:        
+	  note_pressure = config['MQTT']['note_pressure']
+	  if bVerbose:
+	      print("note_pressure =", note_pressure)
 
-# Size is predata + string length + terminating zero
-ex.sizedata = 4 + len(temperature) + 1
-ex.data[0] = sensorindex_temperature
-ex.data[1] = zone
-ex.data[2] = subzone
-ex.data[3] = 1  # unit is degrees Celsius
-b = temperature.encode()
-for idx in range(len(b)):
-    ex.data[idx + 4] = b[idx]
-ex.data[4 + len(temperature)] = 0  # optional terminating zero
+	if 'note_pressure_adj' in config['MQTT']:        
+	  note_pressure_adj = config['MQTT']['note_pressure_adj']
+	  if bVerbose:
+	      print("note_pressure_adj =", note_pressure_adj)
 
-j = ex.toJSON()
-j["vscpNote"] = note_temperature
-# Add extra measurement information
-j["measurement"] = { 
-    "value" : float(temperature),
-    "unit" : 1,
-    "sensorindex" : sensorindex_temperature,
-    "zone" : zone,
-    "subzone" : subzone
-}
+	if 'note_gas' in config['MQTT']:        
+	  note_gas = config['MQTT']['note_gas']
+	  if bVerbose:
+	      print("note_gas =", note_gas)
 
-ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-if ( len(ptopic) ):
-    client.publish(ptopic, json.dumps(j))
+	if 'note_altitude' in config['MQTT']:        
+	  note_altitude = config['MQTT']['note_altitude']
+	  if bVerbose:
+	      print("note_altitude =", note_altitude)
 
-# -----------------------------------------------------------------------------
-#                             H U M I D I T Y
-# -----------------------------------------------------------------------------
+	if 'note_dewpoint' in config['MQTT']:        
+	  note_dewpoint = config['MQTT']['note_dewpoint']
+	  if bVerbose:
+	      print("note_dewpoint =", note_dewpoint)
 
-if BME280_CHIP_ID == chip_id:
+	# ----------------- BME280 -----------------
+	if 'sea_level_pressure' in config['BME280']:
+	  if not bDebug :
+	      sea_level_pressure = float(config['BME280']['sea_level_pressure'])       
+	  if bVerbose:
+	      print("sea_level_pressure =", float(config['BME280']['sea_level_pressure']))
 
-  if bVerbose :
-    print( "Humidity : %f%%" % humidity)
+	if 'temp_corr' in config['BME280']:
+	  if not bDebug :
+	      temp_corr = float(config['BME280']['temp_corr'])       
+	  if bVerbose:
+	      print("temp_corr =", temp_corr)
 
-  ex = vscp.vscpEventEx()
-  initEvent(ex, id_humidity, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_HUMIDITY)
+	if 'height_at_location' in config['BME280']:
+	  if not bDebug :
+	      height_at_location = float(config['BME280']['height_at_location'])       
+	  if bVerbose:
+	      print("height_at_location =", temp_corr)
 
-  # Size is predata + string length + terminating zero
-  ex.sizedata = 4 + len(humidity) + 1
-  ex.data[0] = sensorindex_humidity
-  ex.data[1] = zone
-  ex.data[2] = subzone
-  ex.data[3] = 0  # default unit % of moisture
-  b = humidity.encode()
-  for idx in range(len(b)):
-      ex.data[idx + 4] = b[idx]
-  ex.data[4 + len(humidity)] = 0  # optional terminating zero
+	# -----------------------------------------------------------------------------
 
-  j = ex.toJSON()
-  j["vscpNote"] = note_humidity
-  # Add extra measurement information
-  j["measurement"] = { 
-      "value" : float(humidity),
-      "unit" : 0,
-      "sensorindex" : sensorindex_humidity,
-      "zone" : zone,
-      "subzone" : subzone
-  }
+	# define message callback
+	def on_message(client, userdata, msg):
+	print(msg.topic+" "+str(msg.payload))
 
-  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-  if ( len(ptopic) ):
-      client.publish(ptopic, json.dumps(j))
+	# define connect callback
+	def on_connect(client, userdata, flags, rc):
+	print("Connected =",str(rc))
 
-# -----------------------------------------------------------------------------
-#                             P R E S S U R E
-# -----------------------------------------------------------------------------
+	client= mqtt.Client()
 
-if bVerbose :
-  print( "Pressure : %f hPa" % pressure)
+	# bind callback function
+	client.on_message=on_connect
+	client.on_message=on_message
 
-ex = vscp.vscpEventEx()
-initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
+	client.username_pw_set(user, password)
 
-# Size is predata + string length + terminating zero
-ex.sizedata = 4 + len(pressure) + 1
-ex.data[0] = sensorindex_pressure
-ex.data[1] = zone
-ex.data[2] = subzone
-ex.data[3] = 0  # default unit Pascal
-b = pressure.encode()
-for idx in range(len(b)):
-    ex.data[idx + 4] = b[idx]
-ex.data[4 + len(pressure)] = 0  # optional terminating zero
+	if bVerbose :
+	print("\n\nConnection in progress...", host, port)
+	client.connect(host,port)    
 
-j = ex.toJSON()
-j["vscpNote"] = note_pressure
-# Add extra pressure information
-j["measurement"] = { 
-    "value" : float(pressure),
-    "unit" : 0,
-    "sensorindex" : sensorindex_pressure,
-    "zone" : zone,
-    "subzone" : subzone
-}
+	client.loop_start()     # start loop to process received messages
 
-ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-if ( len(ptopic) ):
-    client.publish(ptopic, json.dumps(j))
-  
-# -----------------------------------------------------------------------------
-#                           Adjusted Pressure
-# -----------------------------------------------------------------------------
+	# Initialize VSCP event content
+	def initEvent(ex,id,vscpClass,vscpType):
+	# Dumb node, priority normal
+	ex.head = vscp.VSCP_PRIORITY_NORMAL | vscp.VSCP_HEADER16_DUMB
+	g = vscp.guid()
+	if ("" == guid):
+	g.setFromString(guid)
+	else :    
+	g.setGUIDFromMAC(id)
+	ex.guid = g.guid
+	ex.vscpclass = vscpClass
+	ex.vscptype = vscpType
+	return g
 
-pressure_adj = "{:0.0f}".format((pressure + height_at_location/8.3)*100)
+	# -----------------------------------------------------------------------------
+
+	if bVerbose :
+	print("-------------------------------------------------------------------------------")
+	print("Sending...")
+
+	(chip_id, chip_version) = readBME280ID()
+	print( "Chip ID     : %d" % chip_id)
+	print( "Version     : %d" % chip_version)
+
+	temperature,pressure,humidity = readBME280All()
+
+	# -----------------------------------------------------------------------------
+	#                           T E M P E R A T U R E
+	# -----------------------------------------------------------------------------
+
+	if bVerbose :
+	print( "Temperature : %f C" % temperature)
+
+	ex = vscp.vscpEventEx()
+	g = initEvent(ex, id_temperature, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_TEMPERATURE)
+
+	# Size is predata + string length + terminating zero
+	ex.sizedata = 4 + len(temperature) + 1
+	ex.data[0] = sensorindex_temperature
+	ex.data[1] = zone
+	ex.data[2] = subzone
+	ex.data[3] = 1  # unit is degrees Celsius
+	b = temperature.encode()
+	for idx in range(len(b)):
+	ex.data[idx + 4] = b[idx]
+	ex.data[4 + len(temperature)] = 0  # optional terminating zero
+
+	j = ex.toJSON()
+	j["vscpNote"] = note_temperature
+	# Add extra measurement information
+	j["measurement"] = { 
+	"value" : float(temperature),
+	"unit" : 1,
+	"sensorindex" : sensorindex_temperature,
+	"zone" : zone,
+	"subzone" : subzone
+	}
+
+	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+	if ( len(ptopic) ):
+	client.publish(ptopic, json.dumps(j))
+
+	# -----------------------------------------------------------------------------
+	#                             H U M I D I T Y
+	# -----------------------------------------------------------------------------
+
+	if BME280_CHIP_ID == chip_id:
+
+	if bVerbose :
+	print( "Humidity : %f%%" % humidity)
+
+	ex = vscp.vscpEventEx()
+	initEvent(ex, id_humidity, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_HUMIDITY)
+
+	# Size is predata + string length + terminating zero
+	ex.sizedata = 4 + len(humidity) + 1
+	ex.data[0] = sensorindex_humidity
+	ex.data[1] = zone
+	ex.data[2] = subzone
+	ex.data[3] = 0  # default unit % of moisture
+	b = humidity.encode()
+	for idx in range(len(b)):
+	ex.data[idx + 4] = b[idx]
+	ex.data[4 + len(humidity)] = 0  # optional terminating zero
+
+	j = ex.toJSON()
+	j["vscpNote"] = note_humidity
+	# Add extra measurement information
+	j["measurement"] = { 
+	"value" : float(humidity),
+	"unit" : 0,
+	"sensorindex" : sensorindex_humidity,
+	"zone" : zone,
+	"subzone" : subzone
+	}
+
+	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+	if ( len(ptopic) ):
+	client.publish(ptopic, json.dumps(j))
+
+	# -----------------------------------------------------------------------------
+	#                             P R E S S U R E
+	# -----------------------------------------------------------------------------
+
+	if bVerbose :
+	print( "Pressure : %f hPa" % pressure)
+
+	ex = vscp.vscpEventEx()
+	initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
+
+	# Size is predata + string length + terminating zero
+	ex.sizedata = 4 + len(pressure) + 1
+	ex.data[0] = sensorindex_pressure
+	ex.data[1] = zone
+	ex.data[2] = subzone
+	ex.data[3] = 0  # default unit Pascal
+	b = pressure.encode()
+	for idx in range(len(b)):
+	ex.data[idx + 4] = b[idx]
+	ex.data[4 + len(pressure)] = 0  # optional terminating zero
+
+	j = ex.toJSON()
+	j["vscpNote"] = note_pressure
+	# Add extra pressure information
+	j["measurement"] = { 
+	"value" : float(pressure),
+	"unit" : 0,
+	"sensorindex" : sensorindex_pressure,
+	"zone" : zone,
+	"subzone" : subzone
+	}
+
+	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+	if ( len(ptopic) ):
+	client.publish(ptopic, json.dumps(j))
+
+	# -----------------------------------------------------------------------------
+	#                           Adjusted Pressure
+	# -----------------------------------------------------------------------------
+
+	pressure_adj = "{:0.0f}".format((pressure + height_at_location/8.3)*100)
 
 
-if bVerbose :
-  print( "Pressure : %f hPa" % pressure_adj)
+	if bVerbose :
+	print( "Pressure : %f hPa" % pressure_adj)
 
-ex = vscp.vscpEventEx()
-initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
+	ex = vscp.vscpEventEx()
+	initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
 
-# Size is predata + string length + terminating zero
-ex.sizedata = 4 + len(pressure_adj) + 1
-ex.data[0] = sensorindex_pressure_adj
-ex.data[1] = zone
-ex.data[2] = subzone
-ex.data[3] = 0  # default unit Pascal
-b = pressure_adj.encode()
-for idx in range(len(b)):
-    ex.data[idx + 4] = b[idx]
-ex.data[4 + len(pressure_adj)] = 0  # optional terminating zero
+	# Size is predata + string length + terminating zero
+	ex.sizedata = 4 + len(pressure_adj) + 1
+	ex.data[0] = sensorindex_pressure_adj
+	ex.data[1] = zone
+	ex.data[2] = subzone
+	ex.data[3] = 0  # default unit Pascal
+	b = pressure_adj.encode()
+	for idx in range(len(b)):
+	ex.data[idx + 4] = b[idx]
+	ex.data[4 + len(pressure_adj)] = 0  # optional terminating zero
 
-j = ex.toJSON()
-j["vscpNote"] = note_pressure_adj
-# Add extra pressure information
-j["measurement"] = { 
-    "value" : float(pressure_adj),
-    "unit" : 0,
-    "sensorindex" : sensorindex_pressure_adj,
-    "zone" : zone,
-    "subzone" : subzone
-}
+	j = ex.toJSON()
+	j["vscpNote"] = note_pressure_adj
+	# Add extra pressure information
+	j["measurement"] = { 
+	"value" : float(pressure_adj),
+	"unit" : 0,
+	"sensorindex" : sensorindex_pressure_adj,
+	"zone" : zone,
+	"subzone" : subzone
+	}
 
-ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-if ( len(ptopic) ):
-    client.publish(ptopic, json.dumps(j))
+	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+	if ( len(ptopic) ):
+	client.publish(ptopic, json.dumps(j))
 
-# -----------------------------------------------------------------------------
-#                               Dewpoint
-# -----------------------------------------------------------------------------
+	# -----------------------------------------------------------------------------
+	#                               Dewpoint
+	# -----------------------------------------------------------------------------
 
-if BME280_CHIP_ID == chip_id:
+	if BME280_CHIP_ID == chip_id:
 
-  dewpoint = temperature - ((100 - humidity) / 5)
-  
-  if bVerbose :
-    print( "Dewpoint : %f C" % dewpoint)
+	dewpoint = temperature - ((100 - humidity) / 5)
 
-  ex = vscp.vscpEventEx()
-  initEvent(ex, id_dewpoint, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_DEWPOINT)
+	if bVerbose :
+	print( "Dewpoint : %f C" % dewpoint)
 
-  # Size is predata + string length + terminating zero
-  ex.sizedata = 4 + len(dewpoint) + 1
-  ex.data[0] = sensorindex_dewpoint
-  ex.data[1] = zone
-  ex.data[2] = subzone
-  ex.data[3] = 0  # default unit Pascal
-  b = pressure.encode()
-  for idx in range(len(b)):
-      ex.data[idx + 4] = b[idx]
-  ex.data[4 + len(dewpoint)] = 0  # optional terminating zero
+	ex = vscp.vscpEventEx()
+	initEvent(ex, id_dewpoint, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_DEWPOINT)
 
-  j = ex.toJSON()
-  j["vscpNote"] = note_dewpoint
-  # Add extra pressure information
-  j["measurement"] = { 
-      "value" : float(dewpoint),
-      "unit" : 0,
-      "sensorindex" : sensorindex_dewpoint,
-      "zone" : zone,
-      "subzone" : subzone
-  }
+	# Size is predata + string length + terminating zero
+	ex.sizedata = 4 + len(dewpoint) + 1
+	ex.data[0] = sensorindex_dewpoint
+	ex.data[1] = zone
+	ex.data[2] = subzone
+	ex.data[3] = 0  # default unit Pascal
+	b = pressure.encode()
+	for idx in range(len(b)):
+	ex.data[idx + 4] = b[idx]
+	ex.data[4 + len(dewpoint)] = 0  # optional terminating zero
 
-  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-  if ( len(ptopic) ):
-      client.publish(ptopic, json.dumps(j))
+	j = ex.toJSON()
+	j["vscpNote"] = note_dewpoint
+	# Add extra pressure information
+	j["measurement"] = { 
+	"value" : float(dewpoint),
+	"unit" : 0,
+	"sensorindex" : sensorindex_dewpoint,
+	"zone" : zone,
+	"subzone" : subzone
+	}
 
-# -----------------------------------------------------------------------------
+	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+	if ( len(ptopic) ):
+	client.publish(ptopic, json.dumps(j))
 
-client.disconnect() 
-client.loop_stop() 
+	# -----------------------------------------------------------------------------
 
-if bVerbose :
-  print("-------------------------------------------------------------------------------")
-  print("Closed")
+	client.disconnect() 
+	client.loop_stop() 
 
-if __name__=="__main__":
-   main()
+	if bVerbose :
+	print("-------------------------------------------------------------------------------")
+	print("Closed")
+
+#if __name__=="__main__":
+#   main()
