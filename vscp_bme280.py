@@ -606,11 +606,11 @@ if BME280_CHIP_ID == chip_id:
 #                             P R E S S U R E
 # -----------------------------------------------------------------------------
 
-pressure = 100 * pressure
+pressure = pressure
 pressure_str = "{:f}".format(pressure)
 
 if bVerbose :
-  print( "Pressure : %f.0 hPa" % pressure)
+  print( "Pressure : %f0.2 hPa" % pressure)
 
 ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
@@ -645,11 +645,11 @@ if ( len(ptopic) ):
 #                           Adjusted Pressure
 # -----------------------------------------------------------------------------
 
-pressure_adj_str = "{:f}".format((pressure/100 + height_at_location/8.3)*100)
+pressure_adj_str = "{:f}".format((pressure + height_at_location/8.3)*100)
 
 
 if bVerbose :
-	print( "Pressure : %f.0 hPa" % float(pressure_adj_str))
+	print( "Adjusted pressure : %f0.2 hPa" % float(pressure_adj_str))
 
 ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
