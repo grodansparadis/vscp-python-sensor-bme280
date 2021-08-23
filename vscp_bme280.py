@@ -461,96 +461,97 @@ if (len(cfgpath)):
 
 	# define message callback
 	def on_message(client, userdata, msg):
-	print(msg.topic+" "+str(msg.payload))
+	  print(msg.topic+" "+str(msg.payload))
 
 	# define connect callback
 	def on_connect(client, userdata, flags, rc):
-	print("Connected =",str(rc))
+	  print("Connected =",str(rc))
 
-	client= mqtt.Client()
+client= mqtt.Client()
 
-	# bind callback function
-	client.on_message=on_connect
-	client.on_message=on_message
+# bind callback function
+client.on_message=on_connect
+client.on_message=on_message
 
-	client.username_pw_set(user, password)
+client.username_pw_set(user, password)
 
-	if bVerbose :
+if bVerbose :
 	print("\n\nConnection in progress...", host, port)
-	client.connect(host,port)    
 
-	client.loop_start()     # start loop to process received messages
+client.connect(host,port)    
 
-	# Initialize VSCP event content
-	def initEvent(ex,id,vscpClass,vscpType):
+client.loop_start()     # start loop to process received messages
+
+# Initialize VSCP event content
+def initEvent(ex,id,vscpClass,vscpType):
 	# Dumb node, priority normal
 	ex.head = vscp.VSCP_PRIORITY_NORMAL | vscp.VSCP_HEADER16_DUMB
 	g = vscp.guid()
 	if ("" == guid):
-	g.setFromString(guid)
+	  g.setFromString(guid)
 	else :    
-	g.setGUIDFromMAC(id)
-	ex.guid = g.guid
-	ex.vscpclass = vscpClass
-	ex.vscptype = vscpType
+	  g.setGUIDFromMAC(id)
+	  ex.guid = g.guid
+	  ex.vscpclass = vscpClass
+	  ex.vscptype = vscpType
 	return g
 
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-	if bVerbose :
+if bVerbose :
 	print("-------------------------------------------------------------------------------")
 	print("Sending...")
 
-	(chip_id, chip_version) = readBME280ID()
+(chip_id, chip_version) = readBME280ID()
 	print( "Chip ID     : %d" % chip_id)
 	print( "Version     : %d" % chip_version)
 
-	temperature,pressure,humidity = readBME280All()
+temperature,pressure,humidity = readBME280All()
 
-	# -----------------------------------------------------------------------------
-	#                           T E M P E R A T U R E
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+#                           T E M P E R A T U R E
+# -----------------------------------------------------------------------------
 
-	if bVerbose :
+if bVerbose :
 	print( "Temperature : %f C" % temperature)
 
-	ex = vscp.vscpEventEx()
-	g = initEvent(ex, id_temperature, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_TEMPERATURE)
+ex = vscp.vscpEventEx()
+g = initEvent(ex, id_temperature, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_TEMPERATURE)
 
-	# Size is predata + string length + terminating zero
-	ex.sizedata = 4 + len(temperature) + 1
-	ex.data[0] = sensorindex_temperature
-	ex.data[1] = zone
-	ex.data[2] = subzone
-	ex.data[3] = 1  # unit is degrees Celsius
-	b = temperature.encode()
-	for idx in range(len(b)):
-	ex.data[idx + 4] = b[idx]
-	ex.data[4 + len(temperature)] = 0  # optional terminating zero
+# Size is predata + string length + terminating zero
+ex.sizedata = 4 + len(temperature) + 1
+ex.data[0] = sensorindex_temperature
+ex.data[1] = zone
+ex.data[2] = subzone
+ex.data[3] = 1  # unit is degrees Celsius
+b = temperature.encode()
+for idx in range(len(b)):
+  ex.data[idx + 4] = b[idx]
+ex.data[4 + len(temperature)] = 0  # optional terminating zero
 
-	j = ex.toJSON()
-	j["vscpNote"] = note_temperature
-	# Add extra measurement information
-	j["measurement"] = { 
-	"value" : float(temperature),
-	"unit" : 1,
-	"sensorindex" : sensorindex_temperature,
-	"zone" : zone,
-	"subzone" : subzone
-	}
+j = ex.toJSON()
+j["vscpNote"] = note_temperature
+# Add extra measurement information
+j["measurement"] = { 
+  "value" : float(temperature),
+  "unit" : 1,
+  "sensorindex" : sensorindex_temperature,
+  "zone" : zone,
+  "subzone" : subzone
+}
 
-	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-	if ( len(ptopic) ):
-	client.publish(ptopic, json.dumps(j))
+ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+if ( len(ptopic) ):
+  client.publish(ptopic, json.dumps(j))
 
-	# -----------------------------------------------------------------------------
-	#                             H U M I D I T Y
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+#                             H U M I D I T Y
+# -----------------------------------------------------------------------------
 
-	if BME280_CHIP_ID == chip_id:
+if BME280_CHIP_ID == chip_id:
 
 	if bVerbose :
-	print( "Humidity : %f%%" % humidity)
+	  print( "Humidity : %f%%" % humidity)
 
 	ex = vscp.vscpEventEx()
 	initEvent(ex, id_humidity, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_HUMIDITY)
@@ -563,109 +564,109 @@ if (len(cfgpath)):
 	ex.data[3] = 0  # default unit % of moisture
 	b = humidity.encode()
 	for idx in range(len(b)):
-	ex.data[idx + 4] = b[idx]
+	  ex.data[idx + 4] = b[idx]
 	ex.data[4 + len(humidity)] = 0  # optional terminating zero
 
 	j = ex.toJSON()
 	j["vscpNote"] = note_humidity
 	# Add extra measurement information
 	j["measurement"] = { 
-	"value" : float(humidity),
-	"unit" : 0,
-	"sensorindex" : sensorindex_humidity,
-	"zone" : zone,
-	"subzone" : subzone
+	  "value" : float(humidity),
+	  "unit" : 0,
+	  "sensorindex" : sensorindex_humidity,
+	  "zone" : zone,
+	  "subzone" : subzone
 	}
 
 	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
 	if ( len(ptopic) ):
-	client.publish(ptopic, json.dumps(j))
+	  client.publish(ptopic, json.dumps(j))
 
-	# -----------------------------------------------------------------------------
-	#                             P R E S S U R E
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+#                             P R E S S U R E
+# -----------------------------------------------------------------------------
 
-	if bVerbose :
-	print( "Pressure : %f hPa" % pressure)
+if bVerbose :
+  print( "Pressure : %f hPa" % pressure)
 
-	ex = vscp.vscpEventEx()
-	initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
+ex = vscp.vscpEventEx()
+initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
 
-	# Size is predata + string length + terminating zero
-	ex.sizedata = 4 + len(pressure) + 1
-	ex.data[0] = sensorindex_pressure
-	ex.data[1] = zone
-	ex.data[2] = subzone
-	ex.data[3] = 0  # default unit Pascal
-	b = pressure.encode()
-	for idx in range(len(b)):
-	ex.data[idx + 4] = b[idx]
-	ex.data[4 + len(pressure)] = 0  # optional terminating zero
+# Size is predata + string length + terminating zero
+ex.sizedata = 4 + len(pressure) + 1
+ex.data[0] = sensorindex_pressure
+ex.data[1] = zone
+ex.data[2] = subzone
+ex.data[3] = 0  # default unit Pascal
+b = pressure.encode()
+for idx in range(len(b)):
+  ex.data[idx + 4] = b[idx]
+ex.data[4 + len(pressure)] = 0  # optional terminating zero
 
-	j = ex.toJSON()
-	j["vscpNote"] = note_pressure
-	# Add extra pressure information
-	j["measurement"] = { 
-	"value" : float(pressure),
-	"unit" : 0,
-	"sensorindex" : sensorindex_pressure,
-	"zone" : zone,
-	"subzone" : subzone
-	}
+j = ex.toJSON()
+j["vscpNote"] = note_pressure
+# Add extra pressure information
+j["measurement"] = { 
+  "value" : float(pressure),
+  "unit" : 0,
+  "sensorindex" : sensorindex_pressure,
+  "zone" : zone,
+  "subzone" : subzone
+}
 
-	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-	if ( len(ptopic) ):
-	client.publish(ptopic, json.dumps(j))
+ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+if ( len(ptopic) ):
+  client.publish(ptopic, json.dumps(j))
 
-	# -----------------------------------------------------------------------------
-	#                           Adjusted Pressure
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+#                           Adjusted Pressure
+# -----------------------------------------------------------------------------
 
-	pressure_adj = "{:0.0f}".format((pressure + height_at_location/8.3)*100)
+pressure_adj = "{:0.0f}".format((pressure + height_at_location/8.3)*100)
 
 
-	if bVerbose :
+if bVerbose :
 	print( "Pressure : %f hPa" % pressure_adj)
 
-	ex = vscp.vscpEventEx()
-	initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
+ex = vscp.vscpEventEx()
+initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
 
-	# Size is predata + string length + terminating zero
-	ex.sizedata = 4 + len(pressure_adj) + 1
-	ex.data[0] = sensorindex_pressure_adj
-	ex.data[1] = zone
-	ex.data[2] = subzone
-	ex.data[3] = 0  # default unit Pascal
-	b = pressure_adj.encode()
-	for idx in range(len(b)):
-	ex.data[idx + 4] = b[idx]
-	ex.data[4 + len(pressure_adj)] = 0  # optional terminating zero
+# Size is predata + string length + terminating zero
+ex.sizedata = 4 + len(pressure_adj) + 1
+ex.data[0] = sensorindex_pressure_adj
+ex.data[1] = zone
+ex.data[2] = subzone
+ex.data[3] = 0  # default unit Pascal
+b = pressure_adj.encode()
+for idx in range(len(b)):
+  ex.data[idx + 4] = b[idx]
+ex.data[4 + len(pressure_adj)] = 0  # optional terminating zero
 
-	j = ex.toJSON()
-	j["vscpNote"] = note_pressure_adj
-	# Add extra pressure information
-	j["measurement"] = { 
-	"value" : float(pressure_adj),
-	"unit" : 0,
-	"sensorindex" : sensorindex_pressure_adj,
-	"zone" : zone,
-	"subzone" : subzone
-	}
+j = ex.toJSON()
+j["vscpNote"] = note_pressure_adj
+# Add extra pressure information
+j["measurement"] = { 
+  "value" : float(pressure_adj),
+  "unit" : 0,
+  "sensorindex" : sensorindex_pressure_adj,
+  "zone" : zone,
+  "subzone" : subzone
+}
 
-	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
-	if ( len(ptopic) ):
-	client.publish(ptopic, json.dumps(j))
+ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+if ( len(ptopic) ):
+  client.publish(ptopic, json.dumps(j))
 
-	# -----------------------------------------------------------------------------
-	#                               Dewpoint
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+#                               Dewpoint
+# -----------------------------------------------------------------------------
 
-	if BME280_CHIP_ID == chip_id:
+if BME280_CHIP_ID == chip_id:
 
 	dewpoint = temperature - ((100 - humidity) / 5)
 
 	if bVerbose :
-	print( "Dewpoint : %f C" % dewpoint)
+	  print( "Dewpoint : %f C" % dewpoint)
 
 	ex = vscp.vscpEventEx()
 	initEvent(ex, id_dewpoint, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_DEWPOINT)
@@ -678,23 +679,23 @@ if (len(cfgpath)):
 	ex.data[3] = 0  # default unit Pascal
 	b = pressure.encode()
 	for idx in range(len(b)):
-	ex.data[idx + 4] = b[idx]
+	  ex.data[idx + 4] = b[idx]
 	ex.data[4 + len(dewpoint)] = 0  # optional terminating zero
 
 	j = ex.toJSON()
 	j["vscpNote"] = note_dewpoint
 	# Add extra pressure information
 	j["measurement"] = { 
-	"value" : float(dewpoint),
-	"unit" : 0,
-	"sensorindex" : sensorindex_dewpoint,
-	"zone" : zone,
-	"subzone" : subzone
+	  "value" : float(dewpoint),
+	  "unit" : 0,
+	  "sensorindex" : sensorindex_dewpoint,
+	  "zone" : zone,
+	  "subzone" : subzone
 	}
 
 	ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
 	if ( len(ptopic) ):
-	client.publish(ptopic, json.dumps(j))
+	  client.publish(ptopic, json.dumps(j))
 
 	# -----------------------------------------------------------------------------
 
@@ -702,8 +703,8 @@ if (len(cfgpath)):
 	client.loop_stop() 
 
 	if bVerbose :
-	print("-------------------------------------------------------------------------------")
-	print("Closed")
+	  print("-------------------------------------------------------------------------------")
+	  print("Closed")
 
 #if __name__=="__main__":
 #   main()
