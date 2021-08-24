@@ -565,7 +565,9 @@ j["measurement"] = {
 
 ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_temperature)
 if ( len(ptopic) ):
-  client.publish(ptopic, json.dumps(j))
+  rv = client.publish(ptopic, json.dumps(j))
+  if 0 != rv[0] :
+    print("Failed to pressure rv=", rv)
 
 # -----------------------------------------------------------------------------
 #                             H U M I D I T Y
@@ -605,7 +607,9 @@ if BME280_CHIP_ID == chip_id:
 
   ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_humidity)
   if ( len(ptopic) ):
-    client.publish(ptopic, json.dumps(j))
+    rv = client.publish(ptopic, json.dumps(j))
+    if 0 != rv[0] :
+        print("Failed to pressure rv=", rv)
 
 # -----------------------------------------------------------------------------
 #                             P R E S S U R E
@@ -636,7 +640,7 @@ j = ex.toJSON()
 j["vscpNote"] = note_pressure
 # Add extra pressure information
 j["measurement"] = { 
-  "value" : pressure,
+  "value" : round(pressure,2),
   "unit" : 0,
   "sensorindex" : sensorindex_pressure,
   "zone" : zone,
@@ -645,7 +649,9 @@ j["measurement"] = {
 
 ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_pressure)
 if ( len(ptopic) ):
-  client.publish(ptopic, json.dumps(j))
+  rv = client.publish(ptopic, payload=json.dumps(j), qos=1)
+  if 0 != rv[0] :
+      print("Failed to pressure rv=", rv)
 
 # -----------------------------------------------------------------------------
 #                           Adjusted Pressure
@@ -674,7 +680,7 @@ j = ex.toJSON()
 j["vscpNote"] = note_pressure_adj
 # Add extra pressure information
 j["measurement"] = {
-  "value" : Math.round((float(pressure_adj_str)*100)/100,
+  "value" : round(float(float(pressure_adj_str)),2),
   "unit" : 0,
   "sensorindex" : sensorindex_pressure_adj,
   "zone" : zone,
@@ -685,7 +691,9 @@ print(json.dumps(j))
 ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_pressure_adj)
 print(g, ptopic)
 if ( len(ptopic) ):
-  client.publish(ptopic, json.dumps(j))
+  rv = client.publish(ptopic, json.dumps(j))
+  if 0 != rv[0] :
+      print("Failed to send sea level pressure rv=", rv)
 
 # -----------------------------------------------------------------------------
 #                               Dewpoint
@@ -726,7 +734,9 @@ if BME280_CHIP_ID == chip_id:
 
   ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_dewpoint)
   if ( len(ptopic) ):
-    client.publish(ptopic, json.dumps(j))
+    rv = client.publish(ptopic, json.dumps(j))
+    if 0 != rv[0] :
+        print("Failed to pressure rv=", rv)
 
 	# -----------------------------------------------------------------------------
 
