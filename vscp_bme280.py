@@ -694,10 +694,8 @@ j["measurement"] = {
 
 #print(json.dumps(j))
 ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_pressure_adj)
-print(g, ptopic)
 if ( len(ptopic) ):
   rv = client.publish(ptopic, json.dumps(j))
-  print("Sent")
   if 0 != rv[0] :
       print("Failed to send sea level pressure rv=", rv)
 
