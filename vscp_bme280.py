@@ -477,11 +477,15 @@ if (len(cfgpath)):
 
 # define message callback
 def on_message(client, userdata, msg):
-	print(msg.topic+" "+str(msg.payload))
+    print(msg.topic+" "+str(msg.payload))
 
 # define connect callback
 def on_connect(client, userdata, flags, rc):
-	print("Connected =",str(rc))
+    print("Connected =",str(rc))
+
+# define publish callback
+def on_publish(client, userdata, result):
+    print("Publish callback\n", result)
 
 # -----------------------------------------------------------------------------
 
@@ -490,6 +494,7 @@ client= mqtt.Client()
 # bind callback function
 client.on_message=on_connect
 client.on_message=on_message
+client.on_message=on_publish
 
 client.username_pw_set(user, password)
 
@@ -692,6 +697,7 @@ ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscp
 print(g, ptopic)
 if ( len(ptopic) ):
   rv = client.publish(ptopic, json.dumps(j))
+  print("Sent")
   if 0 != rv[0] :
       print("Failed to send sea level pressure rv=", rv)
 
@@ -738,12 +744,15 @@ if BME280_CHIP_ID == chip_id:
     if 0 != rv[0] :
         print("Failed to pressure rv=", rv)
 
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-  client.disconnect()
-  client.loop_stop()
 
-  if bVerbose :
+#time.sleep(0.5)
+client.loop_stop()
+client.disconnect()
+
+
+if bVerbose :
     print("-------------------------------------------------------------------------------")
     print("Closed")
 
