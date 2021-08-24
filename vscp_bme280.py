@@ -692,7 +692,7 @@ j["measurement"] = {
   "subzone" : subzone
 }
 
-print(json.dumps(j))
+#print(json.dumps(j))
 ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_pressure_adj)
 print(g, ptopic)
 if ( len(ptopic) ):
