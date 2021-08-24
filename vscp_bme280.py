@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # --------------------------------------
 #    ___  ___  _ ____
 #   / _ \/ _ \(_) __/__  __ __
@@ -687,7 +687,7 @@ j["measurement"] = {
   "subzone" : subzone
 }
 
-print(json.dumps(j))
+print(json.dumps(j))git pull
 ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_pressure_adj)
 print(g, ptopic)
 if ( len(ptopic) ):
