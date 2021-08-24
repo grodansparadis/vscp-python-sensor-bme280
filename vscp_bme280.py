@@ -473,7 +473,7 @@ if (len(cfgpath)):
 	  if bVerbose:
 	    print("height_at_location =", height_at_location)
 
-	# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # define message callback
 def on_message(client, userdata, msg):
@@ -482,6 +482,8 @@ def on_message(client, userdata, msg):
 # define connect callback
 def on_connect(client, userdata, flags, rc):
 	print("Connected =",str(rc))
+
+# -----------------------------------------------------------------------------
 
 client= mqtt.Client()
 
@@ -614,6 +616,7 @@ pressure_str = "{:0.2f}".format(pressure)
 
 if bVerbose :
   print( "Pressure : %0.2f hPa" % pressure)
+  print(pressure_str)
 
 ex = vscp.vscpEventEx()
 initEvent(ex, id_pressure, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
