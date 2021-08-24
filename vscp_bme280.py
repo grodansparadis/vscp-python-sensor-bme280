@@ -82,16 +82,16 @@ password = "secret"
 #   %guid% is replaced with GUID
 #   %class% is replaced with event class
 #   %type% is replaced with event type
-topic = "vscp/{xguid}/{xclass}/{xtype}"
+topic = "vscp/{xguid}/{xclass}/{xtype}/{xsensorindex}"
 
 # Sensor index for sensors (BME280)
 # Default is to use GUID to identify sensor
 sensorindex_temperature = 0
-sensorindex_humidity = 0
-sensorindex_pressure = 0
-sensorindex_pressure_adj = 0
-sensorindex_altitude = 0
-sensorindex_dewpoint = 0
+sensorindex_humidity = 1
+sensorindex_pressure = 2
+sensorindex_pressure_adj = 3
+sensorindex_altitude = 4
+sensorindex_dewpoint = 5
 
 # Zone for module
 zone = 0
@@ -101,12 +101,12 @@ subzone = 0
 
 # Last two bytes for GUID is made up of number
 # given here on the form MSB:LSB
-id_temperature = 1
-id_humidity = 2
-id_pressure = 3
-id_pressure_adj = 4
-id_altitude = 5
-id_dewpoint = 6
+id_temperature = 0
+id_humidity = 1
+id_pressure = 2
+id_pressure_adj = 3
+id_altitude = 4
+id_dewpoint = 5
 
 note_temperature = "Temperature from BME280"
 note_humidity = "Humidity from BME280"
@@ -340,52 +340,52 @@ if (len(cfgpath)):
 	  sensorindex_altitude = int(config['VSCP']['sensorindex_altitude'])
 	  if bVerbose:
 	     print("sensorindex_altitude =", sensorindex_altitude)
-  
+
   if 'sensorindex_dewpoint' in config['VSCP']:
 	  sensorindex_dewpoint = int(config['VSCP']['sensorindex_dewpoint'])
 	  if bVerbose:
 	    print("sensorindex_dewpoint =", sensorindex_dewpoint)
-      
+
   if 'zone' in config['VSCP']:
 	  zone = int(config['VSCP']['zone'])
 	  if bVerbose:
 	    print("zone =", zone)
-      
+
   if 'subzone' in config['VSCP']:
 	  subzone = int(config['VSCP']['subzone'])
 	  if bVerbose:
 	    print("subzone =", subzone)
-      
+
   if 'id_temperature' in config['VSCP']:
 	  id_temperature = int(config['VSCP']['id_temperature'])
 	  if bVerbose:
 	    print("id_temperature =", id_temperature)
-      
+
   if 'id_humidity' in config['VSCP']:
 	  id_humidity = int(config['VSCP']['id_humidity'])
 	  if bVerbose:
 	    print("id_humidity =", id_humidity)
-      
+
   if 'id_pressure' in config['VSCP']:
 	  id_pressure = int(config['VSCP']['id_pressure'])
 	  if bVerbose:
 	    print("id_pressure =", id_pressure)
-      
+
   if 'id_pressure_adj' in config['VSCP']:
 	  id_pressure_adj = int(config['VSCP']['id_pressure_adj'])
 	  if bVerbose:
 	    print("id_pressure_adj =", id_pressure_adj)
-      
+
   if 'id_gas' in config['VSCP']:
 	  id_gas = int(config['VSCP']['id_gas'])
 	  if bVerbose:
 	    print("id_gas =", id_gas)
-      
+
   if 'id_altitude' in config['VSCP']:
 	  id_altitude = int(config['VSCP']['id_altitude'])
 	  if bVerbose:
 	    print("id_altitude =", id_altitude)
-      
+
   if 'id_dewpoint' in config['VSCP']:
 	  id_dewpoint = int(config['VSCP']['id_dewpoint'])
 	  if bVerbose:
@@ -396,74 +396,74 @@ if (len(cfgpath)):
 	  host = config['MQTT']['host']
 	  if bVerbose:
 	    print("host =", host)
-      
+
   if 'port' in config['MQTT']:
 	  port = int(config['MQTT']['port'])
 	  if bVerbose:
 	    print("port =", port)
-      
+
   if 'user' in config['MQTT']:
 	  user = config['MQTT']['user']
 	  if bVerbose:
 	    print("user =", user)
-      
+
   if 'password' in config['MQTT']:
 	  password = config['MQTT']['password']
 	  if bVerbose:
 	    print("password =", "***********")
 	    # print("password =", password)
-      
+
   if 'topic' in config['MQTT']:
 	  topic = config['MQTT']['topic']
 	  if bVerbose:
 	    print("topic =", password)
-      
+
   if 'note_temperature' in config['MQTT']:
 	  note_temperature = config['MQTT']['note_temperature']
 	  if bVerbose:
 	    print("note_temperature =", note_temperature)
-      
+
   if 'note_humidity' in config['MQTT']:
 	  note_humidity = config['MQTT']['note_humidity']
 	  if bVerbose:
 	    print("note_humidity =", note_humidity)
-      
+
   if 'note_pressure' in config['MQTT']:
 	  note_pressure = config['MQTT']['note_pressure']
 	  if bVerbose:
 	    print("note_pressure =", note_pressure)
-      
+
   if 'note_pressure_adj' in config['MQTT']:
 	  note_pressure_adj = config['MQTT']['note_pressure_adj']
 	  if bVerbose:
 	    print("note_pressure_adj =", note_pressure_adj)
-      
+
   if 'note_gas' in config['MQTT']:
 	  note_gas = config['MQTT']['note_gas']
 	  if bVerbose:
 	    print("note_gas =", note_gas)
-      
+
   if 'note_altitude' in config['MQTT']:
 	  note_altitude = config['MQTT']['note_altitude']
 	  if bVerbose:
 	    print("note_altitude =", note_altitude)
-      
+
   if 'note_dewpoint' in config['MQTT']:
 	  note_dewpoint = config['MQTT']['note_dewpoint']
 	  if bVerbose:
 	    print("note_dewpoint =", note_dewpoint)
 
 	# ----------------- BME280 -----------------
-   
+
   if 'sea_level_pressure' in config['BME280']:
 	  if not bDebug :
-	    sea_level_pressure = float(config['BME280']['sea_level_pressure'])       
+	    sea_level_pressure = float(config['BME280']['sea_level_pressure'])
 	  if bVerbose:
 	    print("sea_level_pressure =", float(config['BME280']['sea_level_pressure']))
 
   if 'temp_corr' in config['BME280']:
 	  if not bDebug :
-	    temp_corr = float(config['BME280']['temp_corr'])       
+	    temp_corr = float(config['BME280']['temp_corr'])
 	  if bVerbose:
 	    print("temp_corr =", temp_corr)
 
@@ -494,7 +494,7 @@ client.username_pw_set(user, password)
 if bVerbose :
 	print("\n\nConnection in progress...", host, port)
 
-client.connect(host,port)    
+client.connect(host,port)
 
 client.loop_start()     # start loop to process received messages
 
@@ -505,7 +505,7 @@ def initEvent(ex,id,vscpClass,vscpType):
 	g = vscp.guid()
 	if ("" == guid):
 	  g.setFromString(guid)
-	else :    
+	else :
 	  g.setGUIDFromMAC(id)
 	  ex.guid = g.guid
 	  ex.vscpclass = vscpClass
@@ -559,7 +559,8 @@ j["measurement"] = {
   "subzone" : subzone
 }
 
-ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+
+ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_temperature)
 if ( len(ptopic) ):
   client.publish(ptopic, json.dumps(j))
 
@@ -599,7 +600,7 @@ if BME280_CHIP_ID == chip_id:
     "subzone" : subzone
   }
 
-  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_humidity)
   if ( len(ptopic) ):
     client.publish(ptopic, json.dumps(j))
 
@@ -638,7 +639,7 @@ j["measurement"] = {
   "subzone" : subzone
 }
 
-ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_pressure)
 if ( len(ptopic) ):
   client.publish(ptopic, json.dumps(j))
 
@@ -652,7 +653,7 @@ if bVerbose :
 	print( "Adjusted pressure : %0.2f hPa" % float(pressure_adj_str))
 
 ex = vscp.vscpEventEx()
-initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR,vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
+initEvent(ex, id_pressure_adj, vc.VSCP_CLASS2_MEASUREMENT_STR, vt.VSCP_TYPE_MEASUREMENT_PRESSURE)
 
 # Size is predata + string length + terminating zero
 ex.sizedata = 4 + len(pressure_adj_str) + 1
@@ -668,7 +669,7 @@ ex.data[4 + len(pressure_adj_str)] = 0  # optional terminating zero
 j = ex.toJSON()
 j["vscpNote"] = note_pressure_adj
 # Add extra pressure information
-j["measurement"] = { 
+j["measurement"] = {
   "value" : float(pressure_adj_str),
   "unit" : 0,
   "sensorindex" : sensorindex_pressure_adj,
@@ -676,7 +677,9 @@ j["measurement"] = {
   "subzone" : subzone
 }
 
-ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+print(json.dumps(j))
+ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_pressure_adj)
+print(g, ptopic)
 if ( len(ptopic) ):
   client.publish(ptopic, json.dumps(j))
 
@@ -709,7 +712,7 @@ if BME280_CHIP_ID == chip_id:
   j = ex.toJSON()
   j["vscpNote"] = note_dewpoint
   # Add extra pressure information
-  j["measurement"] = { 
+  j["measurement"] = {
     "value" : float(dewpoint),
     "unit" : 0,
     "sensorindex" : sensorindex_dewpoint,
@@ -717,14 +720,14 @@ if BME280_CHIP_ID == chip_id:
     "subzone" : subzone
   }
 
-  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype)
+  ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_dewpoint)
   if ( len(ptopic) ):
     client.publish(ptopic, json.dumps(j))
 
 	# -----------------------------------------------------------------------------
 
-  client.disconnect() 
-  client.loop_stop() 
+  client.disconnect()
+  client.loop_stop()
 
   if bVerbose :
     print("-------------------------------------------------------------------------------")
