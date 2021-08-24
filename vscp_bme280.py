@@ -498,6 +498,8 @@ client.connect(host,port)
 
 client.loop_start()     # start loop to process received messages
 
+# -----------------------------------------------------------------------------
+
 # Initialize VSCP event content
 def initEvent(ex,id,vscpClass,vscpType):
 	# Dumb node, priority normal
@@ -558,7 +560,6 @@ j["measurement"] = {
   "zone" : zone,
   "subzone" : subzone
 }
-
 
 ptopic = topic.format( xguid=g.getAsString(), xclass=ex.vscpclass, xtype=ex.vscptype, xsensorindex=sensorindex_temperature)
 if ( len(ptopic) ):
