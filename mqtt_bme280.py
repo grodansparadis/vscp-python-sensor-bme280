@@ -6,7 +6,7 @@
 # /_/|_/_/  /_/___/ .__/\_, /
 #                /_/   /___/
 #
-#           bme280.py
+#           mqtt_bme280.py
 #  Read data from a digital pressure sensor.
 #
 #  Official datasheet available from :
