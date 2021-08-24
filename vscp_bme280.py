@@ -674,7 +674,7 @@ j = ex.toJSON()
 j["vscpNote"] = note_pressure_adj
 # Add extra pressure information
 j["measurement"] = {
-  "value" : float(pressure_adj_str),
+  "value" : Number(float(pressure_adj_str).toFixed(2)),
   "unit" : 0,
   "sensorindex" : sensorindex_pressure_adj,
   "zone" : zone,
