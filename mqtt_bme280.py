@@ -6,7 +6,7 @@
 # /_/|_/_/  /_/___/ .__/\_, /
 #                /_/   /___/
 #
-#           mqtt_bme280.py
+#           bme280.py
 #  Read data from a digital pressure sensor.
 #
 #  Official datasheet available from :
@@ -621,7 +621,7 @@ if BME280_CHIP_ID == chip_id:
 # -----------------------------------------------------------------------------
 
 pressure = pressure
-pressure_str = "{:0.2f}".format(pressure)
+pressure_str = "{:0.2f}".format(pressure*100) 
 
 if bVerbose :
   print( "Pressure : %0.2f hPa" % pressure)
@@ -645,7 +645,7 @@ j = ex.toJSON()
 j["vscpNote"] = note_pressure
 # Add extra pressure information
 j["measurement"] = { 
-  "value" : round(pressure,2),
+  "value" : round(pressure*100,2),
   "unit" : 0,
   "sensorindex" : sensorindex_pressure,
   "zone" : zone,
@@ -662,7 +662,7 @@ if ( len(ptopic) ):
 #                           Adjusted Pressure
 # -----------------------------------------------------------------------------
 
-pressure_adj_str = "{:f}".format((pressure + height_at_location/8.3))
+pressure_adj_str = "{:f}".format((pressure*100 + height_at_location/8.3))
 
 if bVerbose :
 	print( "Adjusted pressure : %0.2f hPa" % float(pressure_adj_str))
