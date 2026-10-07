@@ -19,7 +19,7 @@
 #
 # --------------------------------------
 
-# Changes and additions for VSCP © 2021 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+# Changes and additions for VSCP © 2021-2026 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
 # File is part of the VSCP project https://www.vscp.org
 
 import configparser
@@ -41,7 +41,7 @@ BMP280_CHIP_ID = 0x58 // 88
 BME280_CHIP_ID = 0x60 // 96
 BME280_SOFT_RESET_VAL = 0x86
 
-DEVICE = 0x76  # Default device I2C address
+DEVICE = 0x77  # Default device I2C address
 
 # ----------------------------------------------------------------------------
 #                              C O N F I G U R E
@@ -123,7 +123,7 @@ cfgpath = ""
 config = configparser.ConfigParser()
 
 bus = smbus.SMBus(1)  # Rev 2 Pi, Pi 2 & Pi 3 uses bus 1
-                     # Rev 1 Pi uses bus 0
+                      # Rev 1 Pi uses bus 0
 
 
 def usage():
@@ -300,6 +300,7 @@ if (len(cfgpath)):
   # ----------------- GENERAL -----------------
   if 'bVerbose' in config['GENERAL']:
 	  bVerbose = config.getboolean('GENERAL', 'bVerbose')
+	  DEVICE = int(config['GENERAL']['i2caddr'], 16)
 	  if bVerbose:
 	      print('Verbose mode enabled.')
 	      print('READING CONFIGURATION')
@@ -489,7 +490,7 @@ def on_publish(client, userdata, result):
 
 # -----------------------------------------------------------------------------
 
-client= mqtt.Client()
+client= mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 
 # bind callback function
 client.on_message=on_connect
