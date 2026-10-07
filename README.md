@@ -17,16 +17,13 @@ The code here is dependent on the [VSCP helper library](https://github.com/groda
 For convenience this is how the current version is installed on a Raaspberry Pi
 
 ```bash
-wget https://github.com/grodansparadis/vscp-helper-lib/releases/download/v14.0.2/libvscphelper14_14.0.2-1_armhf.deb
+wget https://github.com/grodansparadis/vscp-helper-lib/releases/download/v15.2.242/libvscphelper_raspberrypi_arm64_15.2.242.deb
 
-wget https://github.com/grodansparadis/vscp-helper-lib/releases/download/v14.0.2/libvscphelper14-dev_14.0.2-1_armhf.deb
-
-sudo dpkg -i ./libvscphelper14_14.0.2-1_armhf.deb
-sudo dpkg -i ./libvscphelper14-dev_14.0.2-1_armhf.deb
+sudo dpkg -i ./libvscphelper_raspberrypi_arm64_15.2.242.deb
 
 ```
 
-Note that there may be [later versions available)(https://github.com/grodansparadis/vscp-helper-lib/releases) then the one downloaded above. You should **always** install the latest version.
+Note that there may be [later versions available)(https://github.com/grodansparadis/vscp-helper-lib/releases) then the one downloaded above. You should **always** install the latest version. Use armhf versin on 32-bit systems.
 
 It is recommended to install in a virtual environment in your current project:
 
